@@ -1,1 +1,3 @@
-MBProgressHUD
+
+这里是汇总一些在学习过程中遇到的问题
+1,MBProgressHUD 这个是请求数据带有背景的旋转框,在app应用中请求url数据, 这个framework给予了极大的帮助
