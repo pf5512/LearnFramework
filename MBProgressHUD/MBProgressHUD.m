@@ -8,6 +8,10 @@
 #import <tgmath.h>
 
 
+/*
+ *__has_feature(objc_arc) 
+ *定义是否使用arc, 也就是在工程文件中是否已经设置ARC标记
+ */
 #if __has_feature(objc_arc)
 	#define MB_AUTORELEASE(exp) exp
 	#define MB_RELEASE(exp) exp
@@ -18,6 +22,10 @@
 	#define MB_RETAIN(exp) [exp retain]
 #endif
 
+/*
+ *__IPHONE_OS_VERSION_MIN_REQUIRED
+ *当前系统支持的最小版本
+ */
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 60000
     #define MBLabelAlignmentCenter NSTextAlignmentCenter
 #else
@@ -162,8 +170,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - Lifecycle
-
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame
+{
 	self = [super initWithFrame:frame];
 	if (self) {
 		// Set default values for properties
@@ -173,9 +181,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.detailsLabelText = nil;
 		self.opacity = 0.8f;
 		self.color = nil;
-		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
+		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize]; //16
 		self.labelColor = [UIColor whiteColor];
-		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
+		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize]; //12
 		self.detailsLabelColor = [UIColor whiteColor];
 		self.activityIndicatorColor = [UIColor whiteColor];
 		self.xOffset = 0.0f;
@@ -209,7 +217,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return self;
 }
 
-- (id)initWithView:(UIView *)view {
+//初始化withview －>这里为整个屏幕
+- (id)initWithView:(UIView *)view
+{
+    /*nsassert 断点判断*/
 	NSAssert(view, @"View must not be nil.");
 	return [self initWithFrame:view.bounds];
 }
@@ -244,7 +255,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - Show & hide
-
+/*
+ *展示hud
+ */
 - (void)show:(BOOL)animated {
 	useAnimation = animated;
 	// If the grace time is set postpone the HUD display
@@ -482,7 +495,15 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
 	
-	if (mode == MBProgressHUDModeIndeterminate) {
+    /*
+     *模式为MBProgressHUDModeIndeterminate, 就加载系统控件UIActivityIndicatorView
+     *模式为MBProgressHUDModeDeterminateHorizontalBar 就加载MBBarProgressView
+     *模式为MBProgressHUDModeDeterminate/MBProgressHUDModeAnnularDeterminate  就加载MBRoundProgressView
+     *模式为MBProgressHUDModeCustomView  -->
+     *模式为MBProgressHUDModeText 就加载nil,直接显示labeltext
+     */
+	if (mode == MBProgressHUDModeIndeterminate)
+    {
 		if (!isActivityIndicator) {
 			// Update to indeterminate indicator
 			[indicator removeFromSuperview];
@@ -491,6 +512,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 			[(UIActivityIndicatorView *)indicator startAnimating];
 			[self addSubview:indicator];
 		}
+        /*版本大于5.0的时候*/
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000
 		[(UIActivityIndicatorView *)indicator setColor:self.activityIndicatorColor];
 #endif
@@ -511,7 +533,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		if (mode == MBProgressHUDModeAnnularDeterminate) {
 			[(MBRoundProgressView *)indicator setAnnular:YES];
 		}
-	} 
+	}
+    
+    /*
+     *这里还没有理解, 不明白 这里的意思
+     */
 	else if (mode == MBProgressHUDModeCustomView && customView != indicator) {
 		// Update custom view indicator
 		[indicator removeFromSuperview];
@@ -664,13 +690,18 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - KVO
-
+/*
+ *注册kvo通知, 用[self addObserver: forKeyPath: options: context:]注册即可
+ *此处有个kvo通知列表,数组储存这些key
+ */
 - (void)registerForKVO {
-	for (NSString *keyPath in [self observableKeypaths]) {
+    for (NSString *keyPath in [self observableKeypaths]) {
 		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
 	}
 }
-
+/*
+ *取消kvo通知
+ */
 - (void)unregisterFromKVO {
 	for (NSString *keyPath in [self observableKeypaths]) {
 		[self removeObserver:self forKeyPath:keyPath];
@@ -682,6 +713,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", @"activityIndicatorColor", nil];
 }
 
+/*收到kvo变化通知, 在主线程中更新UI操作*/
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if (![NSThread isMainThread]) {
 		[self performSelectorOnMainThread:@selector(updateUIForKeypath:) withObject:keyPath waitUntilDone:NO];
@@ -712,19 +744,23 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		}
 		return;
 	}
+    /*
+     *setneedslayout 重新排列layout
+     *setneedsdisplay 重新绘制view->实际上会调用drawrect
+     */
 	[self setNeedsLayout];
 	[self setNeedsDisplay];
 }
 
 #pragma mark - Notifications
-
+/*注册通知, 旋转屏幕的通知*/
 - (void)registerForNotifications {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
 	[nc addObserver:self selector:@selector(statusBarOrientationDidChange:)
 			   name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
-
+/*取消通知, 旋转屏幕的通知*/
 - (void)unregisterFromNotifications {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -738,10 +774,13 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[self setTransformForCurrentOrientation:YES];
 	} else {
 		self.frame = self.superview.bounds;
-		[self setNeedsDisplay];
+		[self setNeedsDisplay];//重新绘制
 	}
 }
 
+/*
+ *旋转界面
+ */
 - (void)setTransformForCurrentOrientation:(BOOL)animated {
 	// Stay in sync with the superview
 	if (self.superview) {
@@ -776,7 +815,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 
 @implementation MBRoundProgressView
-
 #pragma mark - Lifecycle
 
 - (id)init {
@@ -882,10 +920,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 
 @implementation MBBarProgressView
-
 #pragma mark - Lifecycle
-
-- (id)init {
+//初始化中间黑色显示框进度条白色的大小
+- (id)init
+{
 	return [self initWithFrame:CGRectMake(.0f, .0f, 120.0f, 20.0f)];
 }
 

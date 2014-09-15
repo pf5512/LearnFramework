@@ -33,16 +33,27 @@
 
 #pragma mark - Lifecycle methods
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+	/*
+	 *获取子view中第一个view
+	 */
 	UIView *content = [[self.view subviews] objectAtIndex:0];
 #if SCREENSHOT_MODE
 	[content.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 #endif
+	/*
+	 *运行时候ios版本,类似 [[UIDevice currentDevice] systemVersion]
+	 */
 	if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
 		[self.buttons setValue:@5.f forKeyPath:@"layer.cornerRadius"];
 	} else {
 		[self.buttons setValue:nil forKey:@"backgroundColor"];
 	}
+	/*
+	 *uiviewcontroller 有属性为uiview -> self.view
+	 *uiscrollview 继承 uiview
+	 */
 	((UIScrollView *)self.view).contentSize = content.bounds.size;
 }
 
@@ -62,7 +73,8 @@
 
 #pragma mark - Actions
 
-- (IBAction)showSimple:(id)sender {
+- (IBAction)showSimple:(id)sender
+{
 	// The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
 	HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	[self.navigationController.view addSubview:HUD];
@@ -70,8 +82,15 @@
 	// Regiser for HUD callbacks so we can remove it from the window at the right time
 	HUD.delegate = self;
 	
+//	[HUD show:YES];
+//	[self performSelector:@selector(hidehud) withObject:nil afterDelay:3];
 	// Show the HUD while the provided method executes in a new thread
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+}
+
+-(void)hidehud
+{
+	[HUD hide:YES];
 }
 
 - (IBAction)showWithLabel:(id)sender {
@@ -136,7 +155,7 @@
 	HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
 	
 	HUD.delegate = self;
-	
+	HUD.labelText = @"HeiHei";
 	// myProgressTask uses the HUD instance to update progress
 	[HUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
 }
@@ -251,7 +270,8 @@
 
 #pragma mark - Execution code
 
-- (void)myTask {
+- (void)myTask
+{
 	// Do something usefull in here instead of sleeping ...
 	sleep(3);
 }
@@ -262,11 +282,16 @@
 	while (progress < 1.0f) {
 		progress += 0.01f;
 		HUD.progress = progress;
+		
+		/*
+		 *进程挂起,usleep()参数单位为微秒
+		 */
 		usleep(50000);
 	}
 }
 
-- (void)myMixedTask {
+- (void)myMixedTask
+{
 	// Indeterminate mode
 	sleep(2);
 	// Switch to determinate mode
@@ -284,6 +309,9 @@
 	HUD.labelText = @"Cleaning up";
 	sleep(2);
 	// UIImageView is a UIKit class, we have to initialize it on the main thread
+	/*
+	 *主进程更新UI, 使用__block来表示uiimageview是可以更改的。
+	 */
 	__block UIImageView *imageView;
 	dispatch_sync(dispatch_get_main_queue(), ^{
 		UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
@@ -319,8 +347,8 @@
 }
 
 #pragma mark - MBProgressHUDDelegate
-
-- (void)hudWasHidden:(MBProgressHUD *)hud {
+- (void)hudWasHidden:(MBProgressHUD *)hud
+{
 	// Remove HUD from screen when the HUD was hidded
 	[HUD removeFromSuperview];
 	[HUD release];

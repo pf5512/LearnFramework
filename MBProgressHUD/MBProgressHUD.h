@@ -35,6 +35,7 @@
 
 typedef enum {
 	/** Progress is shown using an UIActivityIndicatorView. This is the default. */
+    /* 默认带有系统控件 UIActivityIndicatorView */
 	MBProgressHUDModeIndeterminate,
 	/** Progress is shown using a round, pie-chart like, progress view. */
 	MBProgressHUDModeDeterminate,
@@ -66,6 +67,10 @@ typedef enum {
 #endif
 #endif
 
+/*
+ *__has_feature(objc_arc)
+ *定义是否使用arc, 也就是在工程文件中是否已经设置ARC标记
+ */
 #ifndef MB_STRONG
 #if __has_feature(objc_arc)
 	#define MB_STRONG strong
@@ -456,6 +461,10 @@ typedef void (^MBProgressHUDCompletionBlock)();
 
 /**
  * A progress view for showing definite progress by filling up a circle (pie chart).
+ */
+
+/*
+ *模式为MBProgressHUDModeDeterminate/MBProgressHUDModeAnnularDeterminate 加载MBRoundProgressView 
  */
 @interface MBRoundProgressView : UIView 
 
