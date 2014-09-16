@@ -952,11 +952,20 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - Drawing
-
-- (void)drawRect:(CGRect)rect {
+/*
+ *drawrect 用core graphics
+ */
+- (void)drawRect:(CGRect)rect
+{
+    /*
+     正确的做法是只在drawRect里调用UIGraphicsGetCurrentContext()，
+     因为在drawRect之前，系统会往栈里面压入一个valid的CGContextRef，
+     除非自己去维护一个CGContextRef，否则不应该在其他地方取CGContextRef。
+    */
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+	/* Set the line width in the current graphics state to `width'. */
 	CGContextSetLineWidth(context, 2);
+    
 	CGContextSetStrokeColorWithColor(context,[_lineColor CGColor]);
 	CGContextSetFillColorWithColor(context, [_progressRemainingColor CGColor]);
 	
