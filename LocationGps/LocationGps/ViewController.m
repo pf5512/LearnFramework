@@ -54,8 +54,8 @@
 
 -(void)dealloc
 {
-    [super dealloc];
-    [_m_clickedButton release];
+    //[super dealloc];
+    //[_m_clickedButton release];
 }
 
 @end

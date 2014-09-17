@@ -480,6 +480,7 @@
 				7408E1B719C7D9A4000DA773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7408E1B819C7D9A4000DA773 /* Build configuration list for PBXNativeTarget "LocationGpsTests" */ = {
 			isa = XCConfigurationList;
@@ -488,6 +489,7 @@
 				7408E1BA19C7D9A4000DA773 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
