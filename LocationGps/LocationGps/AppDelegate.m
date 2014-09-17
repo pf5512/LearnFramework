@@ -15,6 +15,9 @@
 {
     // Override point for customization after application launch.
     
+    //设置最小后台获取内容间隔
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = (id)self;
     _locationManager.pausesLocationUpdatesAutomatically = NO;
@@ -81,6 +84,64 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+/*
+ *收到远程推送之后, 可以根据推送过来的东西进入后台传输下载
+ */
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    NSLog(@"Received remote notification with userInfo %@", userInfo);
+    
+    NSNumber *contentID = userInfo[@"content-id"];
+    NSString *downloadURLString = [NSString stringWithFormat:@"http://yourserver.com/downloads/%d.mp3", [contentID intValue]];
+    NSURL* downloadURL = [NSURL URLWithString:downloadURLString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
+    NSURLSessionDownloadTask *task = [[self backgroundSession] downloadTaskWithRequest:request];
+    task.taskDescription = [NSString stringWithFormat:@"Podcast Episode %d", [contentID intValue]];
+    [task resume];
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+/*
+ *IOS 7 后台获取新内容, 类似于远程通知,服务器推送内容过来
+ */
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    
+}
+
+/*
+ *后台文件传输  -_-不太懂这个api如何处理
+ */
+-(void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler
+{
+    //completionHandler();
+}
+
+- (void) beginDownload
+{
+    NSString *DownloadURLString = @"url";
+    NSURL *downloadURL = [NSURL URLWithString:DownloadURLString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
+    self.session = [self backgroundSession];
+    self.downloadTask = [self.session downloadTaskWithRequest:request];
+    [self.downloadTask resume]; //下载开始
+}
+
+- (NSURLSession *)backgroundSession
+{
+    //Use dispatch_once_t to create only one background session. If you want more than one session, do with different identifier
+    static NSURLSession *session = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"com.yourcompany.appId.BackgroundSession"];
+        session = [NSURLSession sessionWithConfiguration:configuration delegate:(id)self delegateQueue:nil];
+    });
+    return session;
+}
+
+#pragma mark locationGps
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     NSLog(@"%@", locations);
@@ -144,6 +205,16 @@
             strongself.taskIdentifier = UIBackgroundTaskInvalid;
         }
     });
+}
+
+//url session for background
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
+{
+    NSLog(@"Background URL session %@ finished events.\n", session);
+    if (session.configuration.identifier) {
+        // Call the handler we stored in -application:handleEventsForBackgroundURLSession:
+        //[self callCompletionHandlerForSession:session.configuration.identifier];
+    }
 }
 
 @end

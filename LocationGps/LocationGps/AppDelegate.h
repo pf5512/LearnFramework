@@ -17,5 +17,8 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (unsafe_unretained, nonatomic) UIBackgroundTaskIdentifier taskIdentifier;
 @property (nonatomic, retain) NSTimer *m_timer;
+@property (nonatomic, retain) NSURLSession *session;
+@property (nonatomic, retain) NSURLSessionDownloadTask *downloadTask;
+@property (nonatomic, retain) NSMutableDictionary *completionHandlerDictionary;
 
 @end
