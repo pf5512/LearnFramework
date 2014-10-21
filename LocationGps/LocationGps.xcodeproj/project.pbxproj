@@ -25,6 +25,7 @@
 		7408E1BE19C80F3D000DA773 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7408E1BD19C80F3D000DA773 /* AVFoundation.framework */; };
 		7408E1C019C80F47000DA773 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7408E1BF19C80F47000DA773 /* JavaScriptCore.framework */; };
 		7408E1C219C811AF000DA773 /* shijianzhuyu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7408E1C119C811AF000DA773 /* shijianzhuyu.mp3 */; };
+		74268CCA19D7B3F9009D22D5 /* 43.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74268CC919D7B3F9009D22D5 /* 43.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		7408E1BD19C80F3D000DA773 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7408E1BF19C80F47000DA773 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		7408E1C119C811AF000DA773 /* shijianzhuyu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shijianzhuyu.mp3; sourceTree = "<group>"; };
+		74268CC919D7B3F9009D22D5 /* 43.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 43.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 		7408E18C19C7D9A4000DA773 /* LocationGps */ = {
 			isa = PBXGroup;
 			children = (
+				74268CC919D7B3F9009D22D5 /* 43.wav */,
 				7408E19519C7D9A4000DA773 /* AppDelegate.h */,
 				7408E19619C7D9A4000DA773 /* AppDelegate.m */,
 				7408E19819C7D9A4000DA773 /* Main.storyboard */,
@@ -243,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74268CCA19D7B3F9009D22D5 /* 43.wav in Resources */,
 				7408E19F19C7D9A4000DA773 /* Images.xcassets in Resources */,
 				7408E1C219C811AF000DA773 /* shijianzhuyu.mp3 in Resources */,
 				7408E19119C7D9A4000DA773 /* InfoPlist.strings in Resources */,
@@ -395,11 +399,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: jiliang wang (3LJ4DEGUW8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LocationGps/LocationGps-Prefix.pch";
 				INFOPLIST_FILE = "LocationGps/LocationGps-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25075010-2a63-4892-b244-6d59c806483b";
+				PROVISIONING_PROFILE = "a132127a-4564-4a88-b44c-0c09ef5156f8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -410,11 +416,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: jiliang wang (3LJ4DEGUW8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: jiliang wang (3LJ4DEGUW8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LocationGps/LocationGps-Prefix.pch";
 				INFOPLIST_FILE = "LocationGps/LocationGps-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25075010-2a63-4892-b244-6d59c806483b";
+				PROVISIONING_PROFILE = "a132127a-4564-4a88-b44c-0c09ef5156f8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -39,7 +39,7 @@
     //或者锁屏时，双击home键，屏幕上方出现应用程序播放控制按钮。
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     
-    NSString *mp3Path = [[NSBundle mainBundle] pathForResource:@"shijianzhuyu" ofType:@"mp3"];
+    NSString *mp3Path = [[NSBundle mainBundle] pathForResource:@"43" ofType:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:mp3Path];
     
     //用下列代码播放音乐，测试后台播放
@@ -47,7 +47,7 @@
     AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     [url release];
     [player prepareToPlay];
-    [player setVolume:1];
+    //[player setVolume:1];
     player.numberOfLoops = -1; //设置音乐播放次数  -1为一直循环
     [player play]; //播放
 }
