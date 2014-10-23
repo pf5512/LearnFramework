@@ -16,3 +16,9 @@ libwebp 这个同时支持有损压缩和无损压缩两个方式(google推出)
 
 4, PWLoadMoreTableFooter
 点击加载数据, tableview的footview添加view, 检查数据源, 对footview的uiview添加点击触摸事件,触发触摸事件加载更多数据
+
+5, LocationGps
+关于后台播放跟定位的demo
+
+6, asi-http-request-master
+网络开源库 ASI-http 学习(没看完, 先标记)
