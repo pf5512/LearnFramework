@@ -10,3 +10,9 @@ libwebp 这个同时支持有损压缩和无损压缩两个方式(google推出)
 
 2, MBProgressHUD 加载数据
 各种各样加载数据背景,功能很全, CGContext类 还不是很熟悉, 先做个标记,继续学习
+
+3, EGOTableViewPullRefresh
+下拉刷新数据, 拖动数据页面时候, scrollview触发滑动delegate数据scrollViewDidScroll,检查数据是否加载完成.
+
+4, PWLoadMoreTableFooter
+点击加载数据, tableview的footview添加view, 检查数据源, 对footview的uiview添加点击触摸事件,触发触摸事件加载更多数据
