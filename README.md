@@ -2,7 +2,9 @@ LearnFramework
 ==============
 
 this repository, I will set some three framework that have learned with some notes, Improve my Object-c skills. 
-
+/**
+*  @brief  这里只是简单的介绍, 以后想单独对每个开源库专门写一个文档. (先标记)
+*/
 
 1, SDWebImage 缓存图片库,
 请求图片数据, 成功缓存到memory或者disk之上,再次http请求,就会优先查询memory/disk是否有缓存数据。 
@@ -22,3 +24,6 @@ libwebp 这个同时支持有损压缩和无损压缩两个方式(google推出)
 
 6, asi-http-request-master
 网络开源库 ASI-http 学习(没看完, 先标记)
+
+7, AFNetworking 2.0
+NSURLSession代替NSURLConnection(Apple ios 7新推荐), NSURLSession三个子类(NSURLSessionDataTask获取数据, NSURLSessionUploadTask上传数据, NSURLSessionDownloadTask下载数据). AFNetworking采用的还是CF族,所以相对于更加底层的asi来说，可能处理数据性能差点, AFNetworking还有一个比较重要的特点是 只支持异步, 同步获取数据的话 需要自己手动加, AFNetworking 还支持缓存图片等功能(uikit+AFNetworking)。
