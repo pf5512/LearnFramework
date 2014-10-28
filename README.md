@@ -19,11 +19,11 @@ libwebp 这个同时支持有损压缩和无损压缩两个方式(google推出)
 4, PWLoadMoreTableFooter
 点击加载数据, tableview的footview添加view, 检查数据源, 对footview的uiview添加点击触摸事件,触发触摸事件加载更多数据
 
-5, LocationGps
-关于后台播放跟定位的demo
-
-6, asi-http-request-master
+5, asi-http-request-master
 网络开源库 ASI-http 学习(没看完, 先标记)
 
-7, AFNetworking 2.0
+6, AFNetworking 2.0
 NSURLSession代替NSURLConnection(Apple ios 7新推荐), NSURLSession三个子类(NSURLSessionDataTask获取数据, NSURLSessionUploadTask上传数据, NSURLSessionDownloadTask下载数据). AFNetworking采用的还是CF族,所以相对于更加底层的asi来说，可能处理数据性能差点, AFNetworking还有一个比较重要的特点是 只支持异步, 同步获取数据的话 需要自己手动加, AFNetworking 还支持缓存图片等功能(uikit+AFNetworking)。
+
+7, coredataBooks(apple 官网demo)
+这个是apple官网退出来学习coredata的demo,里面主要是managedObjectContext相关类的使用, 也包括了storyboard的使用, NSFetchedResultsController类对coredata的操控,以及NSFetchedResultsController类的回调方法等。在其中的详细页面 NSUndoManager (nsinvocation到Undo栈中), 运用非常巧妙. 
