@@ -14,6 +14,18 @@
 @implementation SynchronousViewController
 
 
+/*
+ *ASIHTTPRequest 数据请求, 简单的模型,
+ *requestWithURL 加载请求url, 
+ *initWithURL 默认为GET方法的http方法
+ *startSynchronous 同步请求
+ *startAsynchronous 异步请求
+ ***************************
+ *[request responseHeaders] 请求回应http头
+ *[request responseString] 请求回应内容
+ */
+
+#pragma mark ==同步请求数据==
 // Runs a request synchronously
 - (IBAction)simpleURLFetch:(id)sender
 {
@@ -26,12 +38,19 @@
 	//Customise our user agent, for no real reason
 	[request addRequestHeader:@"User-Agent" value:@"ASIHTTPRequest"];
 
+    /*
+     *startSynchronous,同步请求数据,会阻塞主线程
+     *[request responseString] 得到返回数据
+     */
 	// Start the request
 	[request startSynchronous];
+    //[request startAsynchronous];
+    
+    //NSString *str = [request responseString];
+    //NSLog(@"--%@", str);
 	
 	// Request has now finished
 	[[self tableView] reloadData];
-
 }
 
 /*
@@ -127,7 +146,7 @@ static NSString *intro = @"Demonstrates fetching a web page synchronously, the H
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 3) {
-		return [[request responseHeaders] count];
+		return (NSInteger)[[request responseHeaders] count];
 	} else {
 		return 1;
 	}
@@ -152,7 +171,7 @@ static NSString *intro = @"Demonstrates fetching a web page synchronously, the H
 		case 0:
 			return nil;
 		case 1:
-			return @"Enter a URL";
+			return @"Request URL";
 		case 2:
 			return @"Response";
 		case 3:
