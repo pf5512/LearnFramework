@@ -11,6 +11,9 @@
 #import "ShowImageView.h"
 
 @interface RootView ()
+{
+    CGFloat _margin, _gutter;
+}
 
 @end
 
@@ -43,6 +46,20 @@
     
     m_formatter = [[NSDateFormatter alloc] init];
     [m_formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    // Defaults
+    _margin = 0, _gutter = 1;
+    // For pixel perfection...
+    if ([UIScreen mainScreen].bounds.size.height == 480)
+    {
+        // iPhone 3.5 inch
+        _margin = 0, _gutter = 1;
+    }
+    else
+    {
+        // iPhone 4 inch
+        _margin = 0, _gutter = 1;
+    }
 }
 
 #pragma mark ==摄像头初始化==
@@ -144,7 +161,8 @@
 -(UIImage *)MakeImageView:(UIImage *)image;
 {
     UIImage *newImage;
-    CGSize newSize=CGSizeMake(60, 60);
+    //CGFloat value = floorf(((self.view.bounds.size.width - 3* _gutter - 2 * _margin) / 3));
+    CGSize newSize=CGSizeMake(105, 105);
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -165,7 +183,6 @@
     }
 
     [self.m_CollectionView registerClass:[collectionCell class] forCellWithReuseIdentifier:@"staticCell"];
-    [self.m_CollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"head"];
     self.m_CollectionView.dataSource = (id)self;
     self.m_CollectionView.delegate = (id)self;
     self.m_CollectionView.backgroundColor = [UIColor whiteColor];
@@ -215,37 +232,27 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *headView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"head" forIndexPath:indexPath];
-    return headView;
-}
-
 #pragma mark - UICollectionViewDelegateFlowLayout
 // 定义cell的size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize size = CGSizeMake(60, 60);
+    CGFloat value = floorf(((self.view.bounds.size.width - 3* _gutter - 2 * _margin) / 3));
+    CGSize size = CGSizeMake(value, value);
     return size;
 }
 
 // 定义section的边距
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(20, 10, 10, 10);
-}
-
-// 定义headview的size
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(320, 0);
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 // 定义上下cell的最小间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    return 1;
 }
 
 // 定义左右cell的最小间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
+    return 1;
 }
 
 - (void)didReceiveMemoryWarning {

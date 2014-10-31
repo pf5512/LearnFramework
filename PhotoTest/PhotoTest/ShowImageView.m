@@ -31,7 +31,7 @@
     UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
     
     /*初始化imageview*/
-    m_imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 300, self.view.bounds.size.height-94)];
+    m_imageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     m_imageView.image = [self MakeImageView:image];
     
     m_scrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height)];
@@ -45,6 +45,11 @@
     [m_scrollview setZoomScale:[m_scrollview minimumZoomScale]];
     [m_scrollview addSubview:m_imageView];
     [[self view] addSubview:m_scrollview];
+    
+    // 手势隐藏上下导航栏
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(doneButtonPressed:)];
+    swipeGesture.direction = UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:swipeGesture];
 }
 
 #pragma mark ==代理==
@@ -57,7 +62,7 @@
 -(UIImage *)MakeImageView:(UIImage *)image;
 {
     UIImage *newImage;
-    CGSize newSize=CGSizeMake(300,self.view.bounds.size.height-94);
+    CGSize newSize=CGSizeMake(320,self.view.bounds.size.height-64);
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     newImage = UIGraphicsGetImageFromCurrentImageContext();

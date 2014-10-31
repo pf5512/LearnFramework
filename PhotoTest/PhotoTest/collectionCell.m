@@ -24,7 +24,11 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        collImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+        collImageView = [UIImageView new];
+        collImageView.frame = self.bounds;
+        collImageView.contentMode = UIViewContentModeScaleAspectFill;
+        collImageView.clipsToBounds = YES;
+        collImageView.autoresizesSubviews = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [self addSubview:collImageView];
     }
     
