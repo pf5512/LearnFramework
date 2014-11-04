@@ -45,11 +45,6 @@
     [m_scrollview setZoomScale:[m_scrollview minimumZoomScale]];
     [m_scrollview addSubview:m_imageView];
     [[self view] addSubview:m_scrollview];
-    
-    // 手势隐藏上下导航栏
-    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(doneButtonPressed:)];
-    swipeGesture.direction = UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:swipeGesture];
 }
 
 #pragma mark ==代理==

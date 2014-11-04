@@ -25,6 +25,7 @@
 		7408E1BE19C80F3D000DA773 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7408E1BD19C80F3D000DA773 /* AVFoundation.framework */; };
 		7408E1C019C80F47000DA773 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7408E1BF19C80F47000DA773 /* JavaScriptCore.framework */; };
 		7408E1C219C811AF000DA773 /* shijianzhuyu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7408E1C119C811AF000DA773 /* shijianzhuyu.mp3 */; };
+		74118C481A08CE6500D7B078 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 74118C471A08CE6500D7B078 /* OpenUDID.m */; };
 		74268CCA19D7B3F9009D22D5 /* 43.wav in Resources */ = {isa = PBXBuildFile; fileRef = 74268CC919D7B3F9009D22D5 /* 43.wav */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		7408E1BD19C80F3D000DA773 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7408E1BF19C80F47000DA773 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		7408E1C119C811AF000DA773 /* shijianzhuyu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shijianzhuyu.mp3; sourceTree = "<group>"; };
+		74118C461A08CE6500D7B078 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenUDID.h; path = OpenUDID/OpenUDID.h; sourceTree = "<group>"; };
+		74118C471A08CE6500D7B078 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenUDID.m; path = OpenUDID/OpenUDID.m; sourceTree = "<group>"; };
 		74268CC919D7B3F9009D22D5 /* 43.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 43.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +131,7 @@
 		7408E18C19C7D9A4000DA773 /* LocationGps */ = {
 			isa = PBXGroup;
 			children = (
+				74118C451A08CE4C00D7B078 /* OpenUDID */,
 				74268CC919D7B3F9009D22D5 /* 43.wav */,
 				7408E19519C7D9A4000DA773 /* AppDelegate.h */,
 				7408E19619C7D9A4000DA773 /* AppDelegate.m */,
@@ -168,6 +172,15 @@
 				7408E1AE19C7D9A4000DA773 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74118C451A08CE4C00D7B078 /* OpenUDID */ = {
+			isa = PBXGroup;
+			children = (
+				74118C461A08CE6500D7B078 /* OpenUDID.h */,
+				74118C471A08CE6500D7B078 /* OpenUDID.m */,
+			);
+			name = OpenUDID;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7408E19D19C7D9A4000DA773 /* ViewController.m in Sources */,
+				74118C481A08CE6500D7B078 /* OpenUDID.m in Sources */,
 				7408E19719C7D9A4000DA773 /* AppDelegate.m in Sources */,
 				7408E19319C7D9A4000DA773 /* main.m in Sources */,
 			);

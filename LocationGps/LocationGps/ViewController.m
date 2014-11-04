@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "OpenUDID.h"
 
 @interface ViewController ()
 
@@ -19,6 +20,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.title = @"locationGps";
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -39,7 +42,7 @@
     //或者锁屏时，双击home键，屏幕上方出现应用程序播放控制按钮。
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     
-    NSString *mp3Path = [[NSBundle mainBundle] pathForResource:@"43" ofType:@"wav"];
+    NSString *mp3Path = [[NSBundle mainBundle] pathForResource:@"shijianzhuyu" ofType:@"wav"];
     NSURL *url = [NSURL fileURLWithPath:mp3Path];
     
     //用下列代码播放音乐，测试后台播放
@@ -54,8 +57,14 @@
 
 -(void)dealloc
 {
-    //[super dealloc];
+    [super dealloc];
     //[_m_clickedButton release];
+}
+
+-(IBAction)OpenUDID:(id)sender
+{
+    NSString *UDIDstr = [OpenUDID value];
+    DLog(@"UDID %@", UDIDstr);
 }
 
 @end
