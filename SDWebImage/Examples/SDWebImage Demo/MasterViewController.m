@@ -105,8 +105,8 @@
 
     cell.textLabel.text = [NSString stringWithFormat:@"Image #%ld", (long)indexPath.row];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[_objects objectAtIndex:indexPath.row]]
-//                      placeholderImage:[UIImage imageNamed:@"placeholder"] options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[_objects objectAtIndex:indexPath.row]]
+                      placeholderImage:[UIImage imageNamed:@"placeholder"] options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
     
     [cell.imageView sd_setHighlightedImageWithURL:[_objects objectAtIndex:indexPath.row]];
     return cell;

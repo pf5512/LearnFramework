@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UIImage+fixOrientation.h"
+#import "CommDefine.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "SingleAssetOperation.h"
 
 @interface RootView : UIViewController<UIImagePickerControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -17,5 +20,7 @@
 @property(nonatomic, strong)NSMutableDictionary *imageDic;
 @property(nonatomic, strong)IBOutlet UICollectionView *m_CollectionView;
 @property(nonatomic, strong)NSString *docDirPath;
+@property(nonatomic, strong)ALAssetsLibrary *AssetsLibrary;
+@property(nonatomic, strong)NSMutableArray *PhotoUrlArray;
 
 @end
