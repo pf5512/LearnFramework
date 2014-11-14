@@ -94,4 +94,16 @@ static SingleAssetOperation *SingleOperation = nil;
     return newImage;
 }
 
+-(NSString *)getDateKeyPath
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSDateFormatter *m_formatter = [[NSDateFormatter alloc] init];
+    [m_formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    NSString *time1 = [m_formatter stringFromDate:[NSDate date]];
+    NSString *imageStr = [NSString stringWithFormat:@"%@.png", time1];
+    NSString *filePath =  [docPath stringByAppendingPathComponent:imageStr];
+    
+    return filePath;
+}
+
 @end

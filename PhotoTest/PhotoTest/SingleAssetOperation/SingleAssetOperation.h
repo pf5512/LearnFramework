@@ -22,6 +22,7 @@
 -(NSString *)getFileName:(NSString *)fileName;
 -(NSString *)GetUrlByPath:(NSString *)stringPath;
 
+-(NSString *)getDateKeyPath;
 //imageView
 -(UIImage *)MakeImageView:(UIImage *)image;
 -(UIImage *)MakeImageView:(UIImage *)image NewSize:(CGSize)size;

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SampleViewController.h"
+#import <Security/Security.h>
+
 @class ASIHTTPRequest;
 
 @interface SynchronousViewController : SampleViewController {
@@ -20,5 +22,7 @@
 - (IBAction)simpleURLFetch:(id)sender;
 
 @property (retain, nonatomic) ASIHTTPRequest *request;
+
++ (BOOL)extractIdentity:(SecIdentityRef *)outIdentity andTrust:(SecTrustRef*)outTrust fromPKCS12Data:(NSData *)inPKCS12Data;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RootView.h"
+#import "PhotoAssertView.h"
 
 /*
  *这个demo是昨天上午面试的题目:(上机)
@@ -18,6 +19,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) RootView *rootview;
+//@property(strong, nonatomic)PhotoAssertView *rootview;
 
 @end
 

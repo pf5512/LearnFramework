@@ -16,11 +16,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //self.rootview = [[PhotoAssertView alloc] init];
     self.rootview = [[RootView alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.rootview];
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    
+    //设置document icloud 不备份, 把图片保存到document下
+    [self setNotBackup];
     
     return YES;
 }
@@ -45,6 +49,28 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+#pragma mark ==设置icloud 不备份==
+-(void)setNotBackup
+{
+    NSString *path=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
+                    objectAtIndex:0];
+    NSURL *url=[NSURL fileURLWithPath:path isDirectory:YES];
+    BOOL success = [self addSkipBackupAttributeToItemAtURL:url];
+    DLog(@"stop icloud :%hhd",success);
+}
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    //assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                  forKey: NSURLIsExcludedFromBackupKey error: &error];
+    DLog(@"url lasr path %@", [URL lastPathComponent]);
+    DLog(@"error %@", error);
+    return success;
 }
 
 @end

@@ -15,4 +15,10 @@
 #define DLog(...) /**/
 #endif
 
+typedef enum
+{
+    ActionImageBrowser = 1,
+    ActionImageDelete = 2
+}ActionImageEnum;
+
 #endif

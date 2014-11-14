@@ -1214,9 +1214,11 @@ static NSOperationQueue *sharedQueue = nil;
         if (![self validatesSecureCertificate]) {
             // see: http://iphonedevelopment.blogspot.com/2010/05/nsstream-tcp-and-ssl.html
             
+            //[NSNumber numberWithBool:NO],  kCFStreamSSLValidatesCertificateChain  表示不校验证书链。
             NSDictionary *sslProperties = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithBool:YES], kCFStreamSSLAllowsExpiredCertificates,
                                       [NSNumber numberWithBool:YES], kCFStreamSSLAllowsAnyRoot,
+                                           [NSNumber numberWithBool:YES],kCFStreamSSLAllowsExpiredRoots,
                                       [NSNumber numberWithBool:NO],  kCFStreamSSLValidatesCertificateChain,
                                       kCFNull,kCFStreamSSLPeerName,
                                       nil];
@@ -1228,8 +1230,16 @@ static NSOperationQueue *sharedQueue = nil;
         } 
         
         // Tell CFNetwork to use a client certificate
-        if (clientCertificateIdentity) {
+        if (clientCertificateIdentity)
+        {
             NSMutableDictionary *sslProperties = [NSMutableDictionary dictionaryWithCapacity:1];
+//            NSMutableDictionary *sslProperties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+//                                           [NSNumber numberWithBool:YES], kCFStreamSSLAllowsExpiredCertificates,
+//                                           [NSNumber numberWithBool:YES], kCFStreamSSLAllowsAnyRoot,
+//                                            [NSNumber numberWithBool:YES],kCFStreamSSLAllowsExpiredRoots,
+//                                           [NSNumber numberWithBool:NO],  kCFStreamSSLValidatesCertificateChain,
+//                                           kCFNull,kCFStreamSSLPeerName,
+//                                           nil];
             
 			NSMutableArray *certificates = [NSMutableArray arrayWithCapacity:[clientCertificates count]+1];
 
@@ -1240,7 +1250,6 @@ static NSOperationQueue *sharedQueue = nil;
 			for (id cert in clientCertificates) {
 				[certificates addObject:cert];
 			}
-            
             [sslProperties setObject:certificates forKey:(NSString *)kCFStreamSSLCertificates];
             
             CFReadStreamSetProperty((CFReadStreamRef)[self readStream], kCFStreamPropertySSLSettings, sslProperties);

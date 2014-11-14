@@ -56,6 +56,12 @@
     //initNavi
     [self InitNavi];
     
+    if ([self isViewLoaded])
+    {
+        [self performlayout];
+        [self.view setNeedsLayout];
+    }
+    
     if (_currentPhotoIndex == 0) {
         [self showPhotos];
     }
@@ -63,13 +69,19 @@
     [self updateNaviTitle:_currentPhotoIndex];
 }
 
+-(void)performlayout
+{
+    [self hideStatusBarAndNaviBar:YES];
+    [self showPhotos];
+}
+
 #pragma mark 创建UIScrollView
 - (void)createScrollView
 {
-    DLog(@".. current index %ld", _currentPhotoIndex);
-    CGRect frame = self.view.bounds;
-    frame.origin.x -= kPadding;
-    frame.size.width += (2 * kPadding);
+    //DLog(@".. current index %ld", _currentPhotoIndex);
+    CGRect frame = self.view.frame;
+//    frame.origin.x -= kPadding;
+//    frame.size.width += (2 * kPadding);
     _photoScrollView = [[UIScrollView alloc] initWithFrame:frame];
     _photoScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _photoScrollView.pagingEnabled = YES;
@@ -85,7 +97,7 @@
 - (void)setPhotos:(NSArray *)photos
 {
     _photos = photos;
-    DLog(@"__photo count %ld", [_photos count]);
+    //DLog(@"__photo count %ld", [_photos count]);
     
     if (photos.count > 1) {
         _visiblePhotoViews = [NSMutableSet set];
@@ -143,15 +155,18 @@
 {
     zichenPhotoView *photoView = [self dequeueReusablePhotoView];
     if (!photoView) { // 添加新的图片view
-        photoView = [[zichenPhotoView alloc] initWithFrame:self.view.bounds];
+        //CGRect rect = self.view.bounds;
+        photoView = [[zichenPhotoView alloc] initWithFrame:self.view.frame];
         photoView.photoViewDelegate = self;
     }
     
     // 调整当期页的frame
-    CGRect bounds = _photoScrollView.bounds;
+    CGRect bounds = self.view.frame;
+    bounds.origin.y -= 44;
+    //CGRect bounds = _photoScrollView.bounds;
     CGRect photoViewFrame = bounds;
-    photoViewFrame.size.width -= (2 * kPadding);
-    photoViewFrame.origin.x = (bounds.size.width * index) + kPadding;
+//    photoViewFrame.size.width -= (2 * kPadding);
+    photoViewFrame.origin.x = (bounds.size.width * index);
     photoView.tag = kPhotoViewTagOffset + index;
     
     zichenPhoto *photo = _photos[index];
@@ -242,15 +257,12 @@
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     }
     
-    [UIView animateWithDuration:0.35f
-                          delay:0.0f
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^(void) {
-                         CGFloat alpha = hidden ? 0 : 1;
-                         [self.navigationController.navigationBar setAlpha:alpha];
-                         //self.navigationController.navigationBarHidden = YES;
-                     }
-                     completion:^(BOOL finished){}];
+    [UIView animateWithDuration:0.35 animations:^{
+        CGFloat alpha = hidden ? 0 : 1;
+        [self.navigationController.navigationBar setAlpha:alpha];
+        
+        //self.navigationController.navigationBarHidden = hidden;
+    } completion:^(BOOL finished){}];
 }
 
 #pragma mark ==update Title==

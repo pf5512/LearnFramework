@@ -24,10 +24,5 @@
 - (void)setSrcImageView:(UIImageView *)srcImageView
 {
     _srcImageView = srcImageView;
-    //_capture = [self capture:srcImageView];
-    //_placeholder = srcImageView.image;
-    //    if (srcImageView.clipsToBounds) {
-    //        _capture = [self capture:srcImageView];
-    //    }
 }
 @end

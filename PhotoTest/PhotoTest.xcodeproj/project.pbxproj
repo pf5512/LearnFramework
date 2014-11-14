@@ -17,6 +17,12 @@
 		7417B3FD1A11E35600B4D86E /* zichenPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7417B3FC1A11E35600B4D86E /* zichenPhotoBrowser.m */; };
 		7417B4031A11E3A100B4D86E /* zichenPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7417B4021A11E3A100B4D86E /* zichenPhotoView.m */; };
 		7417B4061A11E3C700B4D86E /* zichenPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7417B4051A11E3C700B4D86E /* zichenPhoto.m */; };
+		74AD7DC81A159B8000F716F0 /* PhotoAssertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AD7DC61A159B8000F716F0 /* PhotoAssertView.m */; };
+		74AD7DC91A159B8000F716F0 /* PhotoAssertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74AD7DC71A159B8000F716F0 /* PhotoAssertView.xib */; };
+		74AD7DCF1A15F01C00F716F0 /* ImageSelectedOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 74AD7DCB1A15F01C00F716F0 /* ImageSelectedOff.png */; };
+		74AD7DD01A15F01C00F716F0 /* ImageSelectedOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74AD7DCC1A15F01C00F716F0 /* ImageSelectedOff@2x.png */; };
+		74AD7DD11A15F01C00F716F0 /* ImageSelectedOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 74AD7DCD1A15F01C00F716F0 /* ImageSelectedOn.png */; };
+		74AD7DD21A15F01C00F716F0 /* ImageSelectedOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74AD7DCE1A15F01C00F716F0 /* ImageSelectedOn@2x.png */; };
 		74FC0F7B1A00B3ED000CF186 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FC0F7A1A00B3ED000CF186 /* main.m */; };
 		74FC0F7E1A00B3ED000CF186 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FC0F7D1A00B3ED000CF186 /* AppDelegate.m */; };
 		74FC0F861A00B3ED000CF186 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74FC0F851A00B3ED000CF186 /* Images.xcassets */; };
@@ -54,6 +60,13 @@
 		7417B4021A11E3A100B4D86E /* zichenPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = zichenPhotoView.m; path = PhotoBrowser/zichenPhotoView.m; sourceTree = "<group>"; };
 		7417B4041A11E3C700B4D86E /* zichenPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zichenPhoto.h; path = PhotoBrowser/zichenPhoto.h; sourceTree = "<group>"; };
 		7417B4051A11E3C700B4D86E /* zichenPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = zichenPhoto.m; path = PhotoBrowser/zichenPhoto.m; sourceTree = "<group>"; };
+		74AD7DC51A159B8000F716F0 /* PhotoAssertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoAssertView.h; sourceTree = "<group>"; };
+		74AD7DC61A159B8000F716F0 /* PhotoAssertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoAssertView.m; sourceTree = "<group>"; };
+		74AD7DC71A159B8000F716F0 /* PhotoAssertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoAssertView.xib; sourceTree = "<group>"; };
+		74AD7DCB1A15F01C00F716F0 /* ImageSelectedOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ImageSelectedOff.png; path = Resource/ImageSelectedOff.png; sourceTree = "<group>"; };
+		74AD7DCC1A15F01C00F716F0 /* ImageSelectedOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ImageSelectedOff@2x.png"; path = "Resource/ImageSelectedOff@2x.png"; sourceTree = "<group>"; };
+		74AD7DCD1A15F01C00F716F0 /* ImageSelectedOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ImageSelectedOn.png; path = Resource/ImageSelectedOn.png; sourceTree = "<group>"; };
+		74AD7DCE1A15F01C00F716F0 /* ImageSelectedOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ImageSelectedOn@2x.png"; path = "Resource/ImageSelectedOn@2x.png"; sourceTree = "<group>"; };
 		74FC0F751A00B3ED000CF186 /* PhotoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74FC0F791A00B3ED000CF186 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74FC0F7A1A00B3ED000CF186 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -129,6 +142,10 @@
 		7417B3F61A11BE5900B4D86E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				74AD7DCB1A15F01C00F716F0 /* ImageSelectedOff.png */,
+				74AD7DCC1A15F01C00F716F0 /* ImageSelectedOff@2x.png */,
+				74AD7DCD1A15F01C00F716F0 /* ImageSelectedOn.png */,
+				74AD7DCE1A15F01C00F716F0 /* ImageSelectedOn@2x.png */,
 				7417B3F71A11BEDB00B4D86E /* Navi_Back@2x.png */,
 				7417B3F81A11BEDB00B4D86E /* Navi_BackClick@2x.png */,
 			);
@@ -163,6 +180,9 @@
 				7405B3D61A09F17F008305ED /* CommDefine.h */,
 				74FC0F7C1A00B3ED000CF186 /* AppDelegate.h */,
 				74FC0F7D1A00B3ED000CF186 /* AppDelegate.m */,
+				74AD7DC51A159B8000F716F0 /* PhotoAssertView.h */,
+				74AD7DC61A159B8000F716F0 /* PhotoAssertView.m */,
+				74AD7DC71A159B8000F716F0 /* PhotoAssertView.xib */,
 				74FC0FA51A00CE3B000CF186 /* RootView.h */,
 				74FC0FA61A00CE3B000CF186 /* RootView.m */,
 				74FC0FA71A00CE3B000CF186 /* RootView.xib */,
@@ -285,9 +305,14 @@
 			files = (
 				7417B3F91A11BEDB00B4D86E /* Navi_Back@2x.png in Resources */,
 				74FC0F861A00B3ED000CF186 /* Images.xcassets in Resources */,
+				74AD7DD11A15F01C00F716F0 /* ImageSelectedOn.png in Resources */,
 				7417B3FA1A11BEDB00B4D86E /* Navi_BackClick@2x.png in Resources */,
+				74AD7DD01A15F01C00F716F0 /* ImageSelectedOff@2x.png in Resources */,
 				74FC0FA91A00CE3B000CF186 /* RootView.xib in Resources */,
+				74AD7DD21A15F01C00F716F0 /* ImageSelectedOn@2x.png in Resources */,
 				740654DE1A01CCA4003D5644 /* collectionCell.xib in Resources */,
+				74AD7DC91A159B8000F716F0 /* PhotoAssertView.xib in Resources */,
+				74AD7DCF1A15F01C00F716F0 /* ImageSelectedOff.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7417B4061A11E3C700B4D86E /* zichenPhoto.m in Sources */,
+				74AD7DC81A159B8000F716F0 /* PhotoAssertView.m in Sources */,
 				7417B3FD1A11E35600B4D86E /* zichenPhotoBrowser.m in Sources */,
 				7417B4031A11E3A100B4D86E /* zichenPhotoView.m in Sources */,
 				740654ED1A0231E5003D5644 /* UIImage+fixOrientation.m in Sources */,

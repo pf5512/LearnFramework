@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		740709221A135102003845B5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50C182B121C26FA0055FCAB /* Security.framework */; };
+		7407092C1A1354E0003845B5 /* client.p12 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B50C1847121C27510055FCAB /* client.p12 */; };
 		B50C1823121C26DB0055FCAB /* ClientCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C1822121C26DB0055FCAB /* ClientCertificateTests.m */; };
 		B50C182C121C26FA0055FCAB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50C182B121C26FA0055FCAB /* Security.framework */; };
 		B50C1848121C27510055FCAB /* client.p12 in Resources */ = {isa = PBXBuildFile; fileRef = B50C1847121C27510055FCAB /* client.p12 */; };
@@ -130,6 +132,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7407092B1A1354D3003845B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				7407092C1A1354E0003845B5 /* client.p12 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5F95181115237CB00EDED69 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -276,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740709221A135102003845B5 /* Security.framework in Frameworks */,
 				DADCEB8512D5039F00958557 /* CFNetwork.framework in Frameworks */,
 				DADCEB8A12D503F500958557 /* CoreGraphics.framework in Frameworks */,
 				B576D52D11C7CEFA0059B815 /* Foundation.framework in Frameworks */,
@@ -563,6 +576,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				7407092B1A1354D3003845B5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -617,6 +631,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iPhone" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -841,10 +864,12 @@
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "iPhone Sample/iPhoneInfo.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "ASIHTTPRequest iPhone";
 				PROVISIONING_PROFILE = "a132127a-4564-4a88-b44c-0c09ef5156f8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "a132127a-4564-4a88-b44c-0c09ef5156f8";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -862,10 +887,12 @@
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "iPhone Sample/iPhoneInfo.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "ASIHTTPRequest iPhone";
 				PROVISIONING_PROFILE = "25075010-2a63-4892-b244-6d59c806483b";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "25075010-2a63-4892-b244-6d59c806483b";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Release;
 		};

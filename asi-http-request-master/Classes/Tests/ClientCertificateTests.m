@@ -53,9 +53,15 @@
 	OSStatus securityError = errSecSuccess;
 	
 	NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObject:@"" forKey:(id)kSecImportExportPassphrase];
-	
-	CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
-	securityError = SecPKCS12Import((CFDataRef)inPKCS12Data,(CFDictionaryRef)optionsDictionary,&items);
+    CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
+    securityError = SecPKCS12Import((CFDataRef)inPKCS12Data,(CFDictionaryRef)optionsDictionary,&items);
+    
+    //假如ssl证书带有密码
+//    CFStringRef password = CFSTR(@"SSL-PASSWORD");
+//    const void *keys[] = { kSecImportExportPassphrase};
+//    const void *values[] = {password};
+//    CFDictionaryRef optionsDictionary = CFDictionaryCreate(NULL, keys, values, 1, NULL, NULL);
+//    securityError = SecPKCS12Import((CFDataRef)inPKCS12Data, optionsDictionary, &items);
 	
 	if (securityError == 0) { 
 		CFDictionaryRef myIdentityAndTrust = CFArrayGetValueAtIndex (items, 0);

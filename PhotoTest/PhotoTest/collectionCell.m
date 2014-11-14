@@ -13,10 +13,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-//    self.backgroundColor = [UIColor clearColor];
-//    collImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-//    [self addSubview:collImageView];
-//    self.collImageView.backgroundColor = [UIColor redColor];
 }
 
 -(id)initWithFrame:(CGRect)frame
@@ -30,9 +26,30 @@
         collImageView.clipsToBounds = YES;
         collImageView.autoresizesSubviews = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [self addSubview:collImageView];
+        
+        self.m_selectbButton = [UIButton new];
+        self.m_selectbButton.frame = CGRectMake(61, 0, 44, 44);
+        [self.m_selectbButton setBackgroundImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+        [self.m_selectbButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.m_selectbButton];
     }
     
     return self;
+}
+
+-(void)buttonClick:(id)sender
+{
+    if (!self.m_selectbButton.selected)
+    {
+        self.m_selectbButton.selected = YES;
+        [self.m_selectbButton setBackgroundImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
+        [_delegate buttonSelect:self.m_selectbButton.tag];
+    }
+    else
+    {
+        self.m_selectbButton.selected = NO;
+        [self.m_selectbButton setBackgroundImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+    }
 }
 
 @end

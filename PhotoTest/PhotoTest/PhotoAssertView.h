@@ -1,8 +1,8 @@
 //
-//  RootView.h
+//  PhotoAssertView.h
 //  PhotoTest
 //
-//  Created by chen on 14-10-29.
+//  Created by chen on 14-11-14.
 //  Copyright (c) 2014年 zichen0422. All rights reserved.
 //
 
@@ -11,9 +11,8 @@
 #import "CommDefine.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "SingleAssetOperation.h"
-#import "collectionCell.h"
 
-@interface RootView : UIViewController<UIImagePickerControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate,UIActionSheetDelegate,collectCellDelegate, UIAlertViewDelegate>
+@interface PhotoAssertView : UIViewController<UIImagePickerControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate,UIActionSheetDelegate>
 {
     NSDateFormatter *m_formatter;
 }
@@ -26,9 +25,5 @@
 
 @property(nonatomic, strong)UIActionSheet *sheet;
 @property(nonatomic, strong)NSFileManager *m_fileManager;
-
-@property(nonatomic, assign)NSInteger ActionImageType;
-
-//@property(nonatomic, strong)UIToolbar *toolbar;
 
 @end

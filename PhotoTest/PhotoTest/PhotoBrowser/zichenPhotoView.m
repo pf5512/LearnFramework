@@ -22,8 +22,7 @@
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = YES;
         // 图片
-        //_imageView = [[UIImageView alloc] init];
-        _imageView = [[UIImageView alloc] initWithFrame:frame];
+        _imageView = [[UIImageView alloc] initWithFrame:frame];//CGRectMake(0, frame.origin.y, 320, 568)];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_imageView];
         
@@ -58,9 +57,6 @@
 #pragma mark 显示图片
 - (void)showImage
 {
-    //    CGSize size = CGSizeMake(320, 568);
-    //    UIImage *image = [[SingleAssetOperation ShareInstance] MakeImageView:_photo.srcImageView.image NewSize:size];
-    //    _imageView.image = image;
     _imageView.image = _photo.srcImageView.image;
     
     // 调整frame参数
@@ -113,11 +109,6 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return _imageView;
 }
-
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    DLog(@"...scrollview");
-//}
 
 #pragma mark - 手势处理
 - (void)handleSingleTap:(UITapGestureRecognizer *)tap

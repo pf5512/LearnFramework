@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol collectCellDelegate <NSObject>
+
+@optional
+-(void)buttonSelect:(NSInteger)indexSelect;
+
+@end
+
+
 @interface collectionCell : UICollectionViewCell
 
+@property(nonatomic, strong)id<collectCellDelegate> delegate;
 @property(nonatomic, strong)UIImageView *collImageView;
+@property(nonatomic, strong)UIButton *m_selectbButton;
 
 @end
