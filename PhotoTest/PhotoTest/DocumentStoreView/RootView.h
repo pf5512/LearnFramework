@@ -17,17 +17,7 @@
 {
     NSDateFormatter *m_formatter;
 }
-@property(nonatomic, strong)UIImagePickerController *imageControl;
-@property(nonatomic, strong)NSMutableDictionary *imageDic;
 @property(nonatomic, strong)IBOutlet UICollectionView *m_CollectionView;
-@property(nonatomic, strong)NSString *docDirPath;
-@property(nonatomic, strong)ALAssetsLibrary *AssetsLibrary;
-@property(nonatomic, strong)NSMutableArray *PhotoUrlArray;
-
-@property(nonatomic, strong)UIActionSheet *sheet;
-@property(nonatomic, strong)NSFileManager *m_fileManager;
-
-@property(nonatomic, assign)NSInteger ActionImageType;
 
 //@property(nonatomic, strong)UIToolbar *toolbar;
 

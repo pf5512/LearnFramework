@@ -17,6 +17,15 @@
     CGFloat _margin, _gutter;
     int selectedIndex; //选中的item
 }
+@property(nonatomic, assign)NSInteger ActionImageType;
+@property(nonatomic, strong)UIImagePickerController *imageControl;
+@property(nonatomic, strong)NSMutableDictionary *imageDic;
+@property(nonatomic, strong)NSString *docDirPath;
+@property(nonatomic, strong)ALAssetsLibrary *AssetsLibrary;
+@property(nonatomic, strong)NSMutableArray *PhotoUrlArray;
+
+@property(nonatomic, strong)UIActionSheet *sheet;
+@property(nonatomic, strong)NSFileManager *m_fileManager;
 
 @end
 
@@ -138,8 +147,9 @@
     {
         DLog(@"打开的是相册 %@", info);
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        UIImage *newImage = [image fixOrientation];
         NSString *storeKeyPath = [[SingleAssetOperation ShareInstance] getDateKeyPath];
-        NSData *imageData = UIImagePNGRepresentation(image);
+        NSData *imageData = UIImagePNGRepresentation(newImage);
         storeFlag = [self storeImage:storeKeyPath :imageData];
     }
     [self dismissViewControllerAnimated:YES completion:^{}];
@@ -180,7 +190,9 @@
      */
     [self.m_CollectionView performBatchUpdates:^{
         [self.m_CollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[fileList count]-1 inSection:0]]];
-    } completion:nil];
+    } completion:^(BOOL finished){
+        [self.m_CollectionView reloadData];
+    }];
 }
 
 #pragma mark ==打开相册==
@@ -209,7 +221,6 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
-    DLog(@"count %d", [arrayList count]);
     return [arrayList count];
 }
 
@@ -243,11 +254,6 @@
     if (self.ActionImageType == ActionImageBrowser)
     {
         [self ActionImageBrowser:indexPath];
-    }
-    
-    if (self.ActionImageType == ActionImageDelete)
-    {
-        //[self ActionImageDelete:indexPath];
     }
 }
 
@@ -326,6 +332,7 @@
     //动作选择
     if (actionSheet.tag == 1)
     {
+        self.ActionImageType = ActionImageBrowser;
         if (buttonIndex == 0)
         {
             //拍照
@@ -387,7 +394,9 @@
         {
             [self.m_CollectionView performBatchUpdates:^{
                 [self.m_CollectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:selectedIndex inSection:0]]];
-            } completion:^(BOOL finished){}];
+            } completion:^(BOOL finished){
+                [self.m_CollectionView reloadData];
+            }];
         }
     }
 }

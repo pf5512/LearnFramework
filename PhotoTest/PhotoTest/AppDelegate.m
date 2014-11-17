@@ -16,9 +16,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //self.rootview = [[PhotoAssertView alloc] init];
-    self.rootview = [[RootView alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.rootview];
+    UINavigationController *nav;
+    if (StroeImage == 1)
+    {
+        self.rootview = [[RootView alloc] init];
+        nav = [[UINavigationController alloc] initWithRootViewController:self.rootview];
+    }
+    if (StroeImage == 2)
+    {
+        self.photoview = [[PhotoAssertView alloc] init];
+        nav = [[UINavigationController alloc] initWithRootViewController:self.photoview];
+    }
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

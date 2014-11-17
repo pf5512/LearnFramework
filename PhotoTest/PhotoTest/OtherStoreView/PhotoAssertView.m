@@ -15,7 +15,16 @@
 @interface PhotoAssertView ()
 {
     CGFloat _margin, _gutter;
+    int selectedIndex; //选中的item
 }
+@property(nonatomic, assign)NSInteger ActionImageType;
+@property(nonatomic, strong)NSString *docDirPath;
+@property(nonatomic, strong)ALAssetsLibrary *AssetsLibrary;
+@property(nonatomic, strong)NSMutableArray *PhotoUrlArray;
+@property(nonatomic, strong)UIActionSheet *sheet;
+@property(nonatomic, strong)NSFileManager *m_fileManager;
+@property(nonatomic, strong)UIImagePickerController *imageControl;
+@property(nonatomic, strong)NSMutableDictionary *imageDic;
 
 @end
 
@@ -26,6 +35,7 @@
     self = [super init];
     if (self)
     {
+        self.ActionImageType = ActionImageBrowser;
     }
     
     return self;
@@ -33,6 +43,7 @@
 
 -(void)InitClassProperty
 {
+    selectedIndex = -1;
     _AssetsLibrary = [[ALAssetsLibrary alloc] init];
     _imageDic = [[NSMutableDictionary alloc] initWithCapacity:10];
     _docDirPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -56,13 +67,13 @@
     self.navigationItem.rightBarButtonItem = item;
     
     //动作
-//    UIButton *photobutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-//    [photobutton setTitle:@"动作" forState:UIControlStateNormal];
-//    photobutton.tag = 2;
-//    [photobutton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [photobutton addTarget:self action:@selector(PhotoAction:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *otheritem = [[UIBarButtonItem alloc] initWithCustomView:photobutton];
-//    self.navigationItem.leftBarButtonItem = otheritem;
+    UIButton *photobutton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [photobutton setTitle:@"动作" forState:UIControlStateNormal];
+    photobutton.tag = 2;
+    [photobutton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [photobutton addTarget:self action:@selector(PhotoAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *otheritem = [[UIBarButtonItem alloc] initWithCustomView:photobutton];
+    self.navigationItem.leftBarButtonItem = otheritem;
 }
 
 - (void)viewDidLoad
@@ -130,13 +141,6 @@
         //image size  3264.000000 2448.000000
         UIImage *ImageRetain = [info objectForKey:UIImagePickerControllerOriginalImage];
         //[self saveImage:ImageRetain];
-        
-//        UIImage *newImage = [ImageRetain fixOrientation];
-//        NSData *imageData = UIImagePNGRepresentation(newImage);
-//        NSString *storeKeyPath = [[SingleAssetOperation ShareInstance] getDateKeyPath];
-//        storeFlag = [self storeImage:storeKeyPath :imageData];
-        
-        //注释掉, 保存到document下 modify 2014-11-13
         //保存到相册
                 __block NSURL *resultURL=nil;
                 __weak id weakself = self;
@@ -152,15 +156,9 @@
     {
         DLog(@"打开的是相册 %@", info);
         
-        //注释掉, 保存到document下 modify 2014-11-13
-                NSURL *url = [info objectForKey:UIImagePickerControllerReferenceURL];
-                NSString *imagePath = [url absoluteString];
-                [self SaveImageAndShow:imagePath];
-        
-//        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-//        NSString *storeKeyPath = [[SingleAssetOperation ShareInstance] getDateKeyPath];
-//        NSData *imageData = UIImagePNGRepresentation(image);
-//        storeFlag = [self storeImage:storeKeyPath :imageData];
+        NSURL *url = [info objectForKey:UIImagePickerControllerReferenceURL];
+        NSString *imagePath = [url absoluteString];
+        [self SaveImageAndShow:imagePath];
     }
     [self dismissViewControllerAnimated:YES completion:^{}];
     
@@ -172,20 +170,6 @@
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self dismissViewControllerAnimated:YES completion:^{}];
-}
-
-#pragma mark ==store image==
--(BOOL)storeImage:(NSString *)KeyPath :(NSData *)data
-{
-    BOOL storeBool = NO;
-    if (![self.m_fileManager fileExistsAtPath:KeyPath])
-    {
-        storeBool = [data writeToFile:KeyPath atomically:YES];
-        //[self.m_fileManager createDirectoryAtPath:KeyPath withIntermediateDirectories:YES attributes:nil error:NULL];
-    }
-    //[self.m_fileManager createFileAtPath:KeyPath contents:data attributes:nil];
-    
-    return storeBool;
 }
 
 #pragma mark ==显示image==
@@ -207,17 +191,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.m_CollectionView reloadData];
         });
-    
-//    NSError *error;
-//    NSArray *fileList = [self.m_fileManager contentsOfDirectoryAtPath:_docDirPath error:&error];
-//    
-//    DLog(@"fileList count %d", [fileList count]);
-//    /*
-//     *对显示图进行更新
-//     */
-//    [self.m_CollectionView performBatchUpdates:^{
-//        [self.m_CollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[fileList count]-1 inSection:0]]];
-//    } completion:nil];
 }
 
 #pragma mark ==打开相册==
@@ -248,6 +221,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    DLog(@"count %d", [self DataSourceCollectionView]);
     return [self DataSourceCollectionView];
 //    NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
 //    DLog(@"count %d", [arrayList count]);
@@ -266,53 +240,27 @@
     cell.backgroundColor = [UIColor lightGrayColor];
     NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
     NSString *stringPath = [arrayList objectAtIndex:indexPath.row];
-    
-//    NSString *imageTaken = [_docDirPath stringByAppendingPathComponent:stringPath];
-//    NSData *data = [NSData dataWithContentsOfFile:imageTaken];
-//    UIImage *Image = [UIImage imageWithData:data];
-//    cell.collImageView.image = [[SingleAssetOperation ShareInstance] MakeImageView:Image];
-    //注释掉, 保存到document下 modify 2014-11-13
-        NSString *ImageTaken = [[SingleAssetOperation ShareInstance] GetUrlByPath:stringPath];
-        cell.collImageView.image = nil;
-        if (cell.collImageView.image == nil)
-        {
-            UIImage *image = [self getPhotoByUrl:ImageTaken];
-            cell.collImageView.image = [[SingleAssetOperation ShareInstance] MakeImageView:image];
-        }
+    cell.m_selectbButton.tag = indexPath.row;
+    cell.delegate = (id)self;
+    if(self.ActionImageType == ActionImageBrowser)
+        cell.m_selectbButton.hidden = YES;
+    NSString *ImageTaken = [[SingleAssetOperation ShareInstance] GetUrlByPath:stringPath];
+    cell.collImageView.image = nil;
+    if (cell.collImageView.image == nil)
+    {
+        UIImage *image = [self getPhotoByUrl:ImageTaken];
+        cell.collImageView.image = [[SingleAssetOperation ShareInstance] MakeImageView:image];
+    }
     
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:10];
-    zichenPhotoBrowser *browser = [[zichenPhotoBrowser alloc] init];
-    NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
-    for (int i=0; i<[arrayList count]; i++)
+    if (self.ActionImageType == ActionImageBrowser)
     {
-        //注释掉, 保存到document下 modify 2014-11-13
-                NSString *urlPath = [arrayList objectAtIndex:i];
-                NSString *stringPath = [[SingleAssetOperation ShareInstance] GetUrlByPath:urlPath];
-                UIImage *Image = [self getPhotoByUrl:stringPath];
-        
-//        NSString *stringPath = [arrayList objectAtIndex:i];
-//        NSString *imageTaken = [_docDirPath stringByAppendingPathComponent:stringPath];
-//        NSData *data = [NSData dataWithContentsOfFile:imageTaken];
-//        UIImage *Image = [UIImage imageWithData:data];
-        
-        if (Image)
-        {
-            zichenPhoto *photo = [[zichenPhoto alloc] init];
-            photo.srcImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-            CGSize size = CGSizeMake(320, 568);
-            photo.srcImageView.image = [[SingleAssetOperation ShareInstance] MakeImageView:Image NewSize:size];
-            photo.srcImageView.image = Image;
-            [array addObject:photo];
-        }
+        [self ActionImageBrowser:indexPath];
     }
-    browser.photos = array;
-    browser.currentPhotoIndex = indexPath.row;
-    [self.navigationController pushViewController:browser animated:NO];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -336,6 +284,73 @@
 // 定义左右cell的最小间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 1;
+}
+
+#pragma mark ==点击操作==
+-(void)ActionImageBrowser:(NSIndexPath *)indexPath;
+{
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:10];
+    zichenPhotoBrowser *browser = [[zichenPhotoBrowser alloc] init];
+    NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
+    for (int i=0; i<[arrayList count]; i++)
+    {
+        NSString *urlPath = [arrayList objectAtIndex:i];
+        NSString *stringPath = [[SingleAssetOperation ShareInstance] GetUrlByPath:urlPath];
+        UIImage *Image = [self getPhotoByUrl:stringPath];
+        if (Image)
+        {
+            zichenPhoto *photo = [[zichenPhoto alloc] init];
+            photo.srcImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+            CGSize size = CGSizeMake(320, 568);
+            photo.srcImageView.image = [[SingleAssetOperation ShareInstance] MakeImageView:Image NewSize:size];
+            photo.srcImageView.image = Image;
+            [array addObject:photo];
+        }
+    }
+    browser.photos = array;
+    browser.currentPhotoIndex = indexPath.row;
+    [self.navigationController pushViewController:browser animated:NO];
+}
+
+#pragma mark ==删除==
+-(void)allImageViewDelete:(BOOL)hidden
+{
+    NSArray *array = [self.m_CollectionView visibleCells];
+    for (collectionCell *cell in array)
+    {
+        cell.m_selectbButton.hidden = hidden;
+    }
+}
+
+-(void)buttonSelect:(NSInteger)indexSelect
+{
+    selectedIndex = indexSelect;
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:nil message:@"你要删除这张照片吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    [view show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+    {
+        NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
+        NSString *urlPath = [arrayList objectAtIndex:selectedIndex];
+        DLog(@"file %d", [arrayList count]);
+        NSString *stringPath = [_docDirPath stringByAppendingPathComponent:urlPath];
+        
+        BOOL deleteFlag = NO;
+        if ([self.m_fileManager fileExistsAtPath:stringPath])
+        {
+            deleteFlag = [[NSFileManager defaultManager] removeItemAtPath:stringPath error:nil];
+        }
+        NSArray *arrayList1 = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
+        DLog(@"file %d",[arrayList1 count]);
+        
+        if (deleteFlag)
+        {
+            [self.m_CollectionView reloadData];
+        }
+    }
 }
 
 #pragma mark ==uiactionsheet==
@@ -362,6 +377,7 @@
     //动作选择
     if (actionSheet.tag == 1)
     {
+        self.ActionImageType = ActionImageBrowser;
         if (buttonIndex == 0)
         {
             //拍照
@@ -377,6 +393,16 @@
     //动作方式选择
     if (actionSheet.tag == 2)
     {
+        if (buttonIndex == 0)
+        {
+            self.ActionImageType = ActionImageBrowser;
+            [self allImageViewDelete:YES];
+        }
+        if (buttonIndex == 1)
+        {
+            self.ActionImageType = ActionImageDelete;
+            [self allImageViewDelete:NO];
+        }
     }
 }
 
@@ -384,6 +410,7 @@
 -(void)SaveImageAndShow:(NSString *)resultURL
 {
     DLog(@"URL %@",resultURL);
+    __weak PhotoAssertView *weakself = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSString *fileName = [[SingleAssetOperation ShareInstance] getFileName:resultURL];
         NSString *filePath =  [_docDirPath stringByAppendingPathComponent:fileName];
@@ -394,12 +421,14 @@
             DLog(@"write to file %@",filePath);
             [data writeToFile:filePath atomically:YES];
         }
-        [self ShowImageView];
+        __strong PhotoAssertView *strongself = weakself;
+        [strongself ShowImageView];
     });
 }
 
 -(NSInteger)DataSourceCollectionView
 {
+    [_imageDic removeAllObjects];
     NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
     for (int i=0; i<[arrayList count]; i++)
     {
