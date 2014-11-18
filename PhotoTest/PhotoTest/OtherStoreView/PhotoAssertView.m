@@ -117,9 +117,6 @@
 -(void)InitCameraController
 {
     _imageControl = [[UIImagePickerController alloc] init];
-    //imageControl.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
-    //_imageControl.showsCameraControls = YES;
-    //imageControl.allowsEditing = YES;
     _imageControl.delegate = (id)self;
 }
 
@@ -176,6 +173,7 @@
 -(void)ShowImageView
 {
     //获取目录下所有文件
+    [_imageDic removeAllObjects];
         NSArray *fileList = [[NSArray alloc] init];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError *error;
@@ -190,6 +188,7 @@
         DLog(@"... count %d", [_imageDic count]);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.m_CollectionView reloadData];
+            [self.m_CollectionView setNeedsDisplay];
         });
 }
 
@@ -223,9 +222,6 @@
 {
     DLog(@"count %d", [self DataSourceCollectionView]);
     return [self DataSourceCollectionView];
-//    NSArray *arrayList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
-//    DLog(@"count %d", [arrayList count]);
-//    return [arrayList count];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -244,6 +240,7 @@
     cell.delegate = (id)self;
     if(self.ActionImageType == ActionImageBrowser)
         cell.m_selectbButton.hidden = YES;
+    [cell setCellButtonSelected];
     NSString *ImageTaken = [[SingleAssetOperation ShareInstance] GetUrlByPath:stringPath];
     cell.collImageView.image = nil;
     if (cell.collImageView.image == nil)
@@ -343,12 +340,10 @@
         {
             deleteFlag = [[NSFileManager defaultManager] removeItemAtPath:stringPath error:nil];
         }
-        NSArray *arrayList1 = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_docDirPath error:nil];
-        DLog(@"file %d",[arrayList1 count]);
-        
         if (deleteFlag)
         {
             [self.m_CollectionView reloadData];
+            [self.m_CollectionView setNeedsDisplay];
         }
     }
 }
@@ -409,7 +404,6 @@
 #pragma mark ==获取数据,保存数据==
 -(void)SaveImageAndShow:(NSString *)resultURL
 {
-    DLog(@"URL %@",resultURL);
     __weak PhotoAssertView *weakself = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSString *fileName = [[SingleAssetOperation ShareInstance] getFileName:resultURL];
@@ -479,7 +473,6 @@
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
-        //NSLog(@"%@", filePath);
         NSData *data = UIImagePNGRepresentation(xxImage);
         [data writeToFile:filePath atomically:YES];
     }

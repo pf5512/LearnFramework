@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SingleAssetOperation.h"
 
 @interface AppDelegate ()
 
@@ -15,18 +16,30 @@
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //前后两次打开不同,删除存储的路径
+    NSString *type = [self loadStoreImageType];
+    if ([type integerValue] != StoreImage)
+    {
+        [self deleteDocumentFile];
+    }
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UINavigationController *nav;
-    if (StroeImage == 1)
+    if (StoreImage == 1)
     {
         self.rootview = [[RootView alloc] init];
         nav = [[UINavigationController alloc] initWithRootViewController:self.rootview];
     }
-    if (StroeImage == 2)
+    if (StoreImage == 2)
     {
         self.photoview = [[PhotoAssertView alloc] init];
         nav = [[UINavigationController alloc] initWithRootViewController:self.photoview];
     }
+    
+    //保存存储信息
+    NSString *storeType = [NSString stringWithFormat:@"%d", StoreImage];
+    [self saveStoreImageType:storeType];
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
@@ -59,6 +72,34 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark ==前后打开不对时候,要删除document文件==
+-(void)deleteDocumentFile
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSArray *FileList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:docPath error:nil];
+    for (NSString *str in FileList)
+    {
+        NSString *docStr = [docPath stringByAppendingPathComponent:str];
+        [[NSFileManager defaultManager] removeItemAtPath:docStr error:nil];
+        DLog(@"delete file %@", docStr);
+    }
+}
+
+#pragma mark ==判断前后两次打开方式是否一样==
+-(NSString *)loadStoreImageType
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *type = [user objectForKey:StoreImageType];
+    
+    return type;
+}
+
+-(void)saveStoreImageType:(NSString *)type
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:type forKey:StoreImageType];
+    [user synchronize];
+}
 
 #pragma mark ==设置icloud 不备份==
 -(void)setNotBackup

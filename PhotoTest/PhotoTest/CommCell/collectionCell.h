@@ -22,4 +22,6 @@
 @property(nonatomic, strong)UIImageView *collImageView;
 @property(nonatomic, strong)UIButton *m_selectbButton;
 
+-(void)setCellButtonSelected;
+
 @end

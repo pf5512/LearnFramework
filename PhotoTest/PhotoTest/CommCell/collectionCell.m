@@ -52,4 +52,11 @@
     }
 }
 
+//手动设置无选中状态
+-(void)setCellButtonSelected
+{
+    self.m_selectbButton.selected = NO;
+    [self.m_selectbButton setBackgroundImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+}
+
 @end
