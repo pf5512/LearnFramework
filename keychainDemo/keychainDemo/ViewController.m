@@ -10,8 +10,13 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 #import "keychainObject.h"
+#import "MenuVC.h"
 
 @interface ViewController ()<UITextFieldDelegate>
+{
+    NSDictionary *dic;
+}
+@property (weak, nonatomic) IBOutlet UILabel *backInfoLbl;
 
 @end
 
@@ -28,7 +33,23 @@
     NSString *pass = [usernamepasswordKVPairs objectForKey:KEYCHAIN_PASS];
     _nameLBL.text = name;
     _passlbl.text = pass;
-    NSLog(@"name %@, pass %@", name, pass);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    _backInfoLbl.text = _backInfo;
+}
+
+-(void)setBackInfo:(NSString *)backInfo
+{
+    _backInfo = backInfo;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,25 +57,37 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *vc = [segue destinationViewController];
+    if ([vc respondsToSelector:@selector(setDicInfo:)]) {
+        [vc setValue:dic forKey:@"DicInfo"];
+    }
+    
+    if ([vc respondsToSelector:@selector(setReturnViewController:)]) {
+        [vc setValue:self forKey:@"ReturnViewController"];
+    }
+}
 
+#pragma mark ==login/out==
 -(IBAction)loginButton:(id)sender
 {
-    NSLog(@"%@ %@", _nameLBL.text, _passlbl.text);
     //save to keychain
     NSMutableDictionary *usernamepasswordKVPairs = [NSMutableDictionary dictionary];
     [usernamepasswordKVPairs setObject:_nameLBL.text forKey:KEYCHAIN_NAME];
     [usernamepasswordKVPairs setObject:_passlbl.text forKey:KEYCHAIN_PASS];
     [keychainObject saveKey:KEYCHAIN :(NSData *)usernamepasswordKVPairs];
+    dic = [[NSDictionary alloc] initWithDictionary:usernamepasswordKVPairs];
 }
 
 -(IBAction)logoutButton:(id)sender
 {
-    NSLog(@"%@ %@", _nameLBL.text, _passlbl.text);
     _nameLBL.text = @"";
     _passlbl.text = @"";
     [keychainObject deleteKey:KEYCHAIN];
 }
 
+#pragma mark ==textfield==
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField == _nameLBL) {
@@ -77,7 +110,6 @@
     }
     return YES;
 }
-
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

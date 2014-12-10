@@ -14,5 +14,7 @@
 @property(nonatomic, strong)IBOutlet UITextField *nameLBL;
 @property(nonatomic, strong)IBOutlet UITextField *passlbl;
 
+@property(nonatomic, strong)NSString *backInfo;
+
 @end
 

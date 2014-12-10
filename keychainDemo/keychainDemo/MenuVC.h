@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
 @interface MenuVC : UIViewController
+
+@property(nonatomic, strong)NSDictionary *dicInfo;
+@property(nonatomic, strong)id returnViewController;
 
 @end
