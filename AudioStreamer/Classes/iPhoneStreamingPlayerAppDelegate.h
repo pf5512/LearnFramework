@@ -21,6 +21,36 @@
 //     distribution.
 //
 
+
+/*
+ ***            AudioToolBox.framework         *********
+ * AudioConverter.h 音频转换器的API 。定义了用于创建和使用音频转换器的接口
+ *
+ * AudioFile.h ：定义用于读取和写入文件中的音频数据的接口
+ *
+ * AudioFileStream.h ：定义解析音频文件流的接口。读取采样率、码率、时长等基本信息以及分离音频帧 (网络流跟本地文件都可以使用)
+ *
+ * AudioFormat.h ：定义用于在音频文件的分配和读取的音频格式，元数据的接口
+ *
+ * AudioSession.h 用来管理应用中audio的行为
+ *
+ * AudioQueue.h ：定义播放和录制音频的接口
+ *
+ * AudioServices.H :定义三个接口。系统声音服务可以让你玩短的声音和提醒。音频硬件服务提供了一个轻量级的接口与音频硬件进行交互。音频会话服务可以让iPhone和iPod touch的应用程序管理音频会议。
+ *
+ * AudioToolbox.h ：顶层包含文件的音频工具箱框架
+ *
+ * AUGraph.h ：定义用于创建和使用音频处理图形界面
+ *
+ * ExtendedAudioFile.h ：定义用于从文件中的音频数据直接转换为线性PCM接口，反之亦然
+ *
+ * AUGraph.h 
+ *
+ * CAFFile.h
+ *
+ * MusicPlayer.h
+ */
+
 #import <UIKit/UIKit.h>
 
 @class iPhoneStreamingPlayerViewController;

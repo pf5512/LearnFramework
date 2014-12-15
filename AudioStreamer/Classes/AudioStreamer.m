@@ -224,6 +224,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 	if (self != nil)
 	{
 		url = [aURL retain];
+        //增加中断通知处理
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruptionChangeToState:) name:ASAudioSessionInterruptionOccuredNotification object:nil];
 	}
 	return self;
@@ -639,6 +640,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 // Open the audioFileStream to parse data and the fileHandle as the data
 // source.
 //
+#pragma mark --打开读取音频流
 - (BOOL)openReadStream
 {
 	@synchronized(self)
@@ -666,6 +668,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 		//
 		// Create the read stream that will receive data from the HTTP request
 		//
+        //创建读取流
 		stream = CFReadStreamCreateForHTTPRequest(NULL, message);
 		CFRelease(message);
 		
@@ -736,12 +739,12 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
         
         /*打开成功  可以读取状态试试 */
         CFStreamStatus status = CFReadStreamGetStatus(stream);
-        NSLog(@"stream status %ld", status);
+        NSLog(@"stream status %ld", status); //2 - kCFStreamStatusOpen
 		
 		//
 		// Set our callback function to receive the data
 		//
-        //设置回调函数 ASReadStreamCallBack
+        //设置回调函数 ASReadStreamCallBack  并且添加到runloop中
 		CFStreamClientContext context = {0, self, NULL, NULL, NULL};
 		CFReadStreamSetClient(
 			stream,
@@ -779,6 +782,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 // This method contains bits of the "main" function from Apple's example in
 // AudioFileStreamExample.
 //
+#pragma mark --子线程开启音频流播放, 循环开启
 - (void)startInternal
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -863,6 +867,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 		// handleBufferCompleteForQueue:buffer: should not change the state
 		// (may not enter the synchronized section).
 		//
+        //没有缓冲数据可读 并且音频文件的状态为正在播放 -> 暂停
 		if (buffersUsed == 0 && self.state == AS_PLAYING)
 		{
             //暂停音频流 audioQueue 播放
@@ -885,6 +890,7 @@ cleanup:
 		//
 		if (stream)
 		{
+            //关闭读取流
 			CFReadStreamClose(stream);
 			CFRelease(stream);
 			stream = nil;
@@ -895,6 +901,7 @@ cleanup:
 		//
 		if (audioFileStream)
 		{
+            //关闭音频流文件
 			err = AudioFileStreamClose(audioFileStream);
 			audioFileStream = nil;
 			if (err)
@@ -944,6 +951,7 @@ cleanup:
 //
 // Calls startInternal in a new thread.
 //
+#pragma mark --开始子线程
 - (void)start
 {
 	@synchronized (self)
@@ -975,6 +983,7 @@ cleanup:
 //
 // Called from our internal runloop to reopen the stream at a seeked location
 //
+#pragma mark --播放时间
 - (void)internalSeekToTime:(double)newSeekTime
 {
 	if ([self calculatedBitRate] == 0.0 || fileLength <= 0)
@@ -1013,7 +1022,11 @@ cleanup:
 		UInt32 ioFlags = 0;
 		SInt64 packetAlignedByteOffset;
 		SInt64 seekPacket = floor(newSeekTime / packetDuration);
-		err = AudioFileStreamSeek(audioFileStream, seekPacket, &packetAlignedByteOffset, &ioFlags);
+        /*
+         *计算精确的字节偏移和时间
+         *AudioFileStreamSeek  用来寻找某一个帧（Packet）对应的字节偏移（byte offset）
+         */
+        err = AudioFileStreamSeek(audioFileStream, seekPacket, &packetAlignedByteOffset, &ioFlags);
 		if (!err && !(ioFlags & kAudioFileStreamSeekFlag_OffsetIsEstimated))
 		{
 			seekTime -= ((seekByteOffset - dataOffset) - packetAlignedByteOffset) * 8.0 / calculatedBitRate;
@@ -1075,6 +1088,7 @@ cleanup:
 // returns the current playback progress. Will return zero if sampleRate has
 // not yet been detected.
 //
+#pragma mark --播放进度
 - (double)progress
 {
 	@synchronized(self)
@@ -1088,6 +1102,7 @@ cleanup:
 
 			AudioTimeStamp queueTime;
 			Boolean discontinuity;
+            //获取当前播放时间
 			err = AudioQueueGetCurrentTime(audioQueue, NULL, &queueTime, &discontinuity);
 
 			const OSStatus AudioQueueStopped = 0x73746F70; // 0x73746F70 is 'stop'
@@ -1121,6 +1136,7 @@ cleanup:
 //   packet if available, otherwise it returns the nominal bitrate. Will return
 //   zero if no useful option available.
 //
+#pragma mark --计算音频文件码率
 - (double)calculatedBitRate
 {
 	if (packetDuration && processedPacketsCount > BitRateEstimationMinPackets)
@@ -1144,6 +1160,7 @@ cleanup:
 //
 // returns the calculated duration in seconds.
 //
+#pragma mark -计算音频文件时间
 - (double)duration
 {
 	double calculatedBitRate = [self calculatedBitRate];
@@ -1161,6 +1178,7 @@ cleanup:
 //
 // A togglable pause function.
 //
+#pragma mark -暂停根据状态是播放还是暂停
 - (void)pause
 {
 	@synchronized(self)
@@ -1201,6 +1219,7 @@ cleanup:
 // "isPlaying" property so that it is guaranteed to transition to true and
 // back to false 
 //
+#pragma mark --停止
 - (void)stop
 {
 	@synchronized(self)
@@ -1242,7 +1261,7 @@ cleanup:
 //    aStream - the network file stream
 //    eventType - the event which triggered this method
 //
-//回调处理  readStream 
+#pragma mark --回调处理readStream
 - (void)handleReadFromStream:(CFReadStreamRef)aStream
 	eventType:(CFStreamEventType)eventType
 {
@@ -1282,6 +1301,7 @@ cleanup:
 				//
 				self.state = AS_FLUSHING_EOF;
 			}
+            //添加到缓冲区
 			[self enqueueBuffer];
 		}
 
@@ -1304,6 +1324,7 @@ cleanup:
 					//
 					// Set the progress at the end of the stream
 					//
+                    //stream的最后 确保数据读完
 					err = AudioQueueFlush(audioQueue);
 					if (err)
 					{
@@ -1334,6 +1355,9 @@ cleanup:
 	{
 		if (!httpHeaders)
 		{
+            /*
+             * 读取http头部, 得到信息body长度
+             */
 			CFTypeRef message =
 				CFReadStreamCopyProperty(stream, kCFStreamPropertyHTTPResponseHeader);
 			httpHeaders =
@@ -1348,6 +1372,8 @@ cleanup:
 			{
 				fileLength = [[httpHeaders objectForKey:@"Content-Length"] integerValue];
 			}
+            
+            NSLog(@"http header %@", httpHeaders);
 		}
 
 		if (!audioFileStream)
@@ -1365,10 +1391,16 @@ cleanup:
 			}
 			AudioFileTypeID fileTypeHint =
 				[AudioStreamer hintForFileExtension:self.fileExtension];
-            NSLog(@"AudioFileTypeID %ld", fileTypeHint);
+            NSLog(@"fileExtension %@ AudioFileTypeID %d", self.fileExtension,fileTypeHint);
 			
             // create an audio file stream parser
-            //创建文件流AudioFileStreamID，传输解析的数据
+            /*
+             *创建文件流AudioFileStreamID，传输解析的数据
+             *ASPropertyListenerProc 歌曲信息回调注册, 每解析一个歌曲信息就产生回调  AudioFileStream_PropertyListenerProc
+             *ASPacketsProc 分离帧回调注册, 每解析一部分帧 就产生回调  AudioFileStream_PacketsProc
+             *fileTypeHint 音频文件类型ID  AudioFileTypeID
+             *audioFileStream  AudioFileStreamID
+             */
 			err = AudioFileStreamOpen(self, ASPropertyListenerProc, ASPacketsProc, 
 									fileTypeHint, &audioFileStream);
 			if (err)
@@ -1390,6 +1422,7 @@ cleanup:
 			//
 			// Read the bytes from the stream
 			//
+            //读取数据
 			length = CFReadStreamRead(stream, bytes, kAQDefaultBufSize);
 			
 			if (length == -1)
@@ -1407,7 +1440,7 @@ cleanup:
 		if (discontinuous)
 		{
             //解析音频流
-			err = AudioFileStreamParseBytes(audioFileStream, length, bytes, kAudioFileStreamParseFlag_Discontinuity);
+			err = AudioFileStreamParseBytes(audioFileStream, (UInt32)length, bytes, kAudioFileStreamParseFlag_Discontinuity);
 			if (err)
 			{
 				[self failWithErrorCode:AS_FILE_STREAM_PARSE_BYTES_FAILED];
@@ -1417,7 +1450,7 @@ cleanup:
 		else
 		{
             //解析音频流
-			err = AudioFileStreamParseBytes(audioFileStream, length, bytes, 0);
+			err = AudioFileStreamParseBytes(audioFileStream, (UInt32)length, bytes, 0);
 			if (err)
 			{
 				[self failWithErrorCode:AS_FILE_STREAM_PARSE_BYTES_FAILED];
@@ -1438,6 +1471,7 @@ cleanup:
 // This function is adapted from Apple's example in AudioFileStreamExample with
 // CBR functionality added.
 //
+#pragma mark -添加进缓冲区之后开始播放
 - (void)enqueueBuffer
 {
 	@synchronized(self)
@@ -1451,13 +1485,14 @@ cleanup:
 		buffersUsed++;
 
 		// enqueue buffer
+        //AudioQueueBufferRef 缓冲buffer
 		AudioQueueBufferRef fillBuf = audioQueueBuffer[fillBufferIndex];
-		fillBuf->mAudioDataByteSize = bytesFilled;
+		fillBuf->mAudioDataByteSize = (UInt32)bytesFilled;
 		
 		if (packetsFilled)
 		{
             //把缓冲数据排队加入到AudioQueueRef等待播放
-			err = AudioQueueEnqueueBuffer(audioQueue, fillBuf, packetsFilled, packetDescs);
+			err = AudioQueueEnqueueBuffer(audioQueue, fillBuf, (UInt32)packetsFilled, packetDescs);
 		}
 		else
 		{
@@ -1534,7 +1569,7 @@ cleanup:
 // it could be handled any time after kAudioFileStreamProperty_ReadyToProducePackets
 // is true).
 //
-//播放队列
+#pragma mark -创建播放队列
 - (void)createQueue
 {
 	sampleRate = asbd.mSampleRate;
@@ -1551,6 +1586,7 @@ cleanup:
 	
 	// start the queue if it has not been started already
 	// listen to the "isRunning" property
+    // 增加监听者 在播放过程中添加监听
 	err = AudioQueueAddPropertyListener(audioQueue, kAudioQueueProperty_IsRunning, ASAudioQueueIsRunningCallback, self);
 	if (err)
 	{
@@ -1620,6 +1656,7 @@ cleanup:
 //    inPropertyID - the property that changed
 //    ioFlags - the ioFlags passed in
 //
+#pragma mark -歌曲信息解析回调
 - (void)handlePropertyChangeForFileStream:(AudioFileStreamID)inAudioFileStream
 	fileStreamPropertyID:(AudioFileStreamPropertyID)inPropertyID
 	ioFlags:(UInt32 *)ioFlags
@@ -1639,6 +1676,8 @@ cleanup:
 		{
 			SInt64 offset;
 			UInt32 offsetSize = sizeof(offset);
+            //kAudioFileStreamProperty_DataOffset 音频数据在整个音频文件中的offset
+            //获取音频PropertyID 对应的值
 			err = AudioFileStreamGetProperty(inAudioFileStream, kAudioFileStreamProperty_DataOffset, &offsetSize, &offset);
 			if (err)
 			{
@@ -1655,6 +1694,8 @@ cleanup:
 		else if (inPropertyID == kAudioFileStreamProperty_AudioDataByteCount)
 		{
 			UInt32 byteCountSize = sizeof(UInt64);
+            //音频文件中音频数据的总量 kAudioFileStreamProperty_AudioDataByteCount
+            //获取音频PropertyID 对应的值
 			err = AudioFileStreamGetProperty(inAudioFileStream, kAudioFileStreamProperty_AudioDataByteCount, &byteCountSize, &audioDataByteCount);
 			if (err)
 			{
@@ -1670,6 +1711,8 @@ cleanup:
 				UInt32 asbdSize = sizeof(asbd);
 				
 				// get the stream format.
+                // 音频文件结构信息 kAudioFileStreamProperty_DataFormat
+                // 获取音频PropertyID 对应的值
 				err = AudioFileStreamGetProperty(inAudioFileStream, kAudioFileStreamProperty_DataFormat, &asbdSize, &asbd);
 				if (err)
 				{
@@ -1682,6 +1725,8 @@ cleanup:
 		{
 			Boolean outWriteable;
 			UInt32 formatListSize;
+            // 音频文件结构信息 kAudioFileStreamProperty_FormatList
+            //获取音频数据
 			err = AudioFileStreamGetPropertyInfo(inAudioFileStream, kAudioFileStreamProperty_FormatList, &formatListSize, &outWriteable);
 			if (err)
 			{
@@ -1690,6 +1735,7 @@ cleanup:
 			}
 			
 			AudioFormatListItem *formatList = malloc(formatListSize);
+            // 获取音频PropertyID 对应的值
 	        err = AudioFileStreamGetProperty(inAudioFileStream, kAudioFileStreamProperty_FormatList, &formatListSize, formatList);
 			if (err)
 			{
@@ -1740,6 +1786,7 @@ cleanup:
 //    inNumberPackets - number of packets in the data
 //    inPacketDescriptions - packet descriptions
 //
+#pragma mark -分离帧的回调，每解析出一部分帧就会进行一次回调
 - (void)handleAudioPackets:(const void *)inInputData
 	numberBytes:(UInt32)inNumberBytes
 	numberPackets:(UInt32)inNumberPackets
@@ -1811,6 +1858,7 @@ cleanup:
 			// if the space remaining in the buffer is not enough for this packet, then enqueue the buffer.
 			if (bufSpaceRemaining < packetSize)
 			{
+                //添加到缓冲区
 				[self enqueueBuffer];
 			}
 			
@@ -1847,6 +1895,7 @@ cleanup:
 			// if that was the last free packet description, then enqueue the buffer.
 			size_t packetsDescsRemaining = kAQMaxPacketDescs - packetsFilled;
 			if (packetsDescsRemaining == 0) {
+                //添加到缓冲区
 				[self enqueueBuffer];
 			}
 		}	
@@ -1860,6 +1909,7 @@ cleanup:
 			size_t bufSpaceRemaining = kAQDefaultBufSize - bytesFilled;
 			if (bufSpaceRemaining < inNumberBytes)
 			{
+                //添加到缓冲区
 				[self enqueueBuffer];
 			}
 			
@@ -1916,6 +1966,7 @@ cleanup:
 //    inAQ - the queue
 //    inBuffer - the buffer
 //
+#pragma mark -播放队列回调函数
 - (void)handleBufferCompleteForQueue:(AudioQueueRef)inAQ
 	buffer:(AudioQueueBufferRef)inBuffer
 {
@@ -1968,6 +2019,8 @@ cleanup:
 //    inAQ - the audio queue
 //    inID - the property ID
 //
+
+#pragma mark -播放过程监听回调方法
 - (void)handlePropertyChangeForQueue:(AudioQueueRef)inAQ
 	propertyID:(AudioQueuePropertyID)inID
 {
@@ -1993,6 +2046,7 @@ cleanup:
 				// the *start* of a very short stream
 				UInt32 isRunning = 0;
 				UInt32 size = sizeof(UInt32);
+                //获取AudioQueue 的Property
 				AudioQueueGetProperty(audioQueue, inID, &isRunning, &size);
 				if (isRunning == 0)
 				{
@@ -2040,6 +2094,7 @@ cleanup:
 //    inAQ - the audio queue
 //    inID - the property ID
 //
+#pragma mark  --中断通知处理
 - (void)handleInterruptionChangeToState:(NSNotification *)notification {
     AudioQueuePropertyID inInterruptionState = (AudioQueuePropertyID) [notification.object unsignedIntValue];
 	if (inInterruptionState == kAudioSessionBeginInterruption)
