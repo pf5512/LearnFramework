@@ -218,6 +218,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 //
 // Init method for the object.
 //
+#pragma mark -初始化
 - (id)initWithURL:(NSURL *)aURL
 {
 	self = [super init];
@@ -249,6 +250,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 //
 // returns YES if the audio has reached a stopping condition.
 //
+#pragma mark -完成
 - (BOOL)isFinishing
 {
 	@synchronized (self)
@@ -269,6 +271,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 //
 // returns YES if the run loop should exit.
 //
+#pragma mark -判断runloop退出
 - (BOOL)runLoopShouldExit
 {
 	@synchronized(self)
@@ -295,6 +298,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 //
 // returns the string representation of the error code
 //
+#pragma mark -错误编码
 + (NSString *)stringForErrorCode:(AudioStreamerErrorCode)anErrorCode
 {
 	switch (anErrorCode)
@@ -399,6 +403,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 // Parameters:
 //    anErrorCode - the error condition
 //
+#pragma mark －错误返回码
 - (void)failWithErrorCode:(AudioStreamerErrorCode)anErrorCode
 {
 	@synchronized(self)
@@ -596,6 +601,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 //
 // returns a file type hint that can be passed to the AudioFileStream
 //
+#pragma mark -音频格式
 + (AudioFileTypeID)hintForFileExtension:(NSString *)fileExtension
 {
 	AudioFileTypeID fileTypeHint = kAudioFileAAC_ADTSType;
