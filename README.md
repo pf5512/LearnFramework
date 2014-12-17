@@ -25,7 +25,7 @@ asi-http-request-master
 =============
 网络开源库 ASI-http 学习(没看完, 先标记)
 
-6, AFNetworking 2.0
+AFNetworking 2.0
 =============
 NSURLSession代替NSURLConnection, NSURLSession三个子类(NSURLSessionDataTask获取数据, NSURLSessionUploadTask上传数据, NSURLSessionDownloadTask下载数据).
 
