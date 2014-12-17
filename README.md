@@ -37,3 +37,6 @@ AudioStreamer (在线播放)
 =============
 AudioTooolBox.framework 和 CFNetwork.framework
 
+PodsTest (CocoaPods)
+=============
+CocoaPods 和 ASIHttpRequest 的block
