@@ -17,10 +17,15 @@
     __block __weak ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:urlsring];
     [request setRequestMethod:@"GET"];
     [request setCompletionBlock:^{
-        NSString *result = [request responseString];
-        NSDictionary *header = [request responseHeaders];
-        NSLog(@"code %d result %@", [request responseStatusCode],header);
-        handle(result);
+//        NSString *result = [request responseString];
+//        NSDictionary *header = [request responseHeaders];
+//        NSLog(@"code %d result %@ %@", [request responseStatusCode],result,header);
+        
+        NSData *data = [request responseData];
+        //自带json解析
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"dic %@", dic);
+        handle(dic);
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];

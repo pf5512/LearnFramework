@@ -74,7 +74,7 @@
 //        NSLog(@"result %@", result);
 //    }];
     
-    [ASICommRequest GetWearthInfo:string Completion:^(id result){
+    [ASICommRequest GetWearthInfo:string Completion:^(NSDictionary *result){
         NSLog(@"result %@", result);
     } failHandle:^(NSError *error){
         NSLog(@"error %@", error);
@@ -127,7 +127,7 @@
     //针对NSString字符串数据
     NSString *nstr = [dic JSONString];
     NSDictionary *ret2 = [jd objectWithUTF8String:(const unsigned char *)[nstr UTF8String] length:(unsigned int)[nstr length]];
-    NSLog(@"res= %lu", [[ret2 objectForKey:@"pets"] indexOfObject:@"cat"]);
+   // NSLog(@"res= %lu", [[ret2 objectForKey:@"pets"] indexOfObject:@"cat"]);
     //res= 1
     NSLog(@"res= %@", [[ret2 objectForKey:@"other"] objectAtIndex:1]);
     //res= 30

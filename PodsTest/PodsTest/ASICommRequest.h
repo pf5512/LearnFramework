@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <ASIHTTPRequest.h>
 
-typedef void (^CompletionBlock)(id result);
+typedef void (^CompletionBlock)(NSDictionary *result);
 typedef void (^failBlock)(NSError *error);
 
 @interface ASICommRequest : NSObject
