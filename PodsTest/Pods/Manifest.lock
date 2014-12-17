@@ -1,0 +1,30 @@
+PODS:
+  - ASIHTTPRequest (1.8.2):
+    - ASIHTTPRequest/ASIWebPageRequest
+    - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/Core
+    - ASIHTTPRequest/S3
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/CloudFiles (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/Core (1.8.2):
+    - Reachability
+  - ASIHTTPRequest/S3 (1.8.2):
+    - ASIHTTPRequest/Core
+  - EGOCache (2.1)
+  - JSONKit (1.5pre)
+  - Reachability (3.1.1)
+
+DEPENDENCIES:
+  - ASIHTTPRequest
+  - EGOCache
+  - JSONKit
+
+SPEC CHECKSUMS:
+  ASIHTTPRequest: 2c8335b49410c0e2ad42829c438e74d454b77590
+  EGOCache: bf414333c425fe47f5182351d1dd47ebf72d8352
+  JSONKit: efef3bbd3372ff33f96b9c6f34cf4fe18e74ab69
+  Reachability: 8e9635e3cb4f98e7f825e51147f677ecc694d0e7
+
+COCOAPODS: 0.34.4
