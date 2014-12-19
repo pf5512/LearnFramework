@@ -12,10 +12,12 @@
 #import <Foundation/Foundation.h>
 #import <ASIHTTPRequest.h>
 #import "ASICommRequest.h"
+#import "BlockPersonClass.h"
 
 @interface ViewController ()
 {
     //JSONDecoder *m_decoder;
+    NSMutableArray *m_array;
 }
 
 @property(nonatomic,weak)IBOutlet UIButton *EGObutton;
@@ -33,6 +35,7 @@
     [self jsonTest];
     //test EGOCache
     //[self EGOCacheTest];
+    m_array = [[NSMutableArray alloc] initWithCapacity:10];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,6 +83,63 @@
         NSLog(@"error %@", error);
     }];
 }
+
+-(IBAction)blockButton:(id)sender
+{
+    BlockPersonClass *person1 = [[BlockPersonClass alloc] init];
+    person1.username = @"lix";
+    person1.age = 18;
+    BlockPersonClass *person2 = [[BlockPersonClass alloc] init];
+    person2.username = @"xux";
+    person2.age = 43;
+    BlockPersonClass *person3 = [[BlockPersonClass alloc] init];
+    person3.username = @"lyue";
+    person3.age = 52;
+    BlockPersonClass *person4 = [[BlockPersonClass alloc] init];
+    person4.username = @"res";
+    person4.age = 21;
+    BlockPersonClass *person5 = [[BlockPersonClass alloc] init];
+    person5.username = @"heelp";
+    person5.age = 49;
+    m_array = [NSMutableArray arrayWithObjects:person1,person2,person3,person4,person5,nil];
+    
+    NSLog(@"排序qian:");
+    for (BlockPersonClass *per in m_array) {
+        NSLog(@"name %@ age %d", per.username, per.age);
+    }
+    
+    NSArray *sortedArray = [m_array sortedArrayUsingComparator:comptr];
+    
+    NSLog(@"排序后:");
+    for (BlockPersonClass *per in sortedArray) {
+        NSLog(@"name %@ age %d", per.username, per.age);
+    }
+
+}
+
+NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
+{
+    if(obj1 != nil && obj2 != nil)
+    {
+        //年龄排序
+        if(obj1.age > obj2.age)
+            return NSOrderedDescending;
+        else if(obj1.age < obj2.age)
+            return NSOrderedAscending;
+        else
+            return NSOrderedSame;
+        
+        //名字排序
+//        NSComparisonResult result = [obj1.username compare:obj2.username];
+//        if(result == NSOrderedAscending)
+//            return NSOrderedAscending;
+//        else if(result == NSOrderedDescending)
+//            return NSOrderedDescending;
+    }
+    return NSOrderedSame;
+    
+    return NSOrderedSame;
+};
 
 #pragma mark - json -
 -(void)jsonTest

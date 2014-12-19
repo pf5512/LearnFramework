@@ -15,6 +15,7 @@
 		74B6CC541A1B32BF00AFD8B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74B6CC531A1B32BF00AFD8B9 /* Images.xcassets */; };
 		74B6CC571A1B32BF00AFD8B9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74B6CC551A1B32BF00AFD8B9 /* LaunchScreen.xib */; };
 		74B6CC631A1B32C000AFD8B9 /* PodsTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC621A1B32C000AFD8B9 /* PodsTestTests.m */; };
+		74F362731A43D3AB00FA4FEF /* BlockPersonClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F362721A43D3AB00FA4FEF /* BlockPersonClass.m */; };
 		BF9412DE85FF36A74CF6FBBF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B72726B95468BFC3BB131809 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,8 @@
 		74B6CC5C1A1B32C000AFD8B9 /* PodsTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PodsTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74B6CC611A1B32C000AFD8B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74B6CC621A1B32C000AFD8B9 /* PodsTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PodsTestTests.m; sourceTree = "<group>"; };
+		74F362711A43D3AB00FA4FEF /* BlockPersonClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockPersonClass.h; sourceTree = "<group>"; };
+		74F362721A43D3AB00FA4FEF /* BlockPersonClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockPersonClass.m; sourceTree = "<group>"; };
 		B72726B95468BFC3BB131809 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C459C538A00BD32EB6B2EEFF /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +100,8 @@
 				74B6CC4E1A1B32BF00AFD8B9 /* ViewController.m */,
 				74122CDE1A413119005F2A48 /* ASICommRequest.h */,
 				74122CDF1A413119005F2A48 /* ASICommRequest.m */,
+				74F362711A43D3AB00FA4FEF /* BlockPersonClass.h */,
+				74F362721A43D3AB00FA4FEF /* BlockPersonClass.m */,
 				74B6CC501A1B32BF00AFD8B9 /* Main.storyboard */,
 				74B6CC531A1B32BF00AFD8B9 /* Images.xcassets */,
 				74B6CC551A1B32BF00AFD8B9 /* LaunchScreen.xib */,
@@ -291,6 +296,7 @@
 				74B6CC4F1A1B32BF00AFD8B9 /* ViewController.m in Sources */,
 				74122CE01A413119005F2A48 /* ASICommRequest.m in Sources */,
 				74B6CC4C1A1B32BF00AFD8B9 /* AppDelegate.m in Sources */,
+				74F362731A43D3AB00FA4FEF /* BlockPersonClass.m in Sources */,
 				74B6CC491A1B32BF00AFD8B9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
