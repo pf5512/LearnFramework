@@ -13,6 +13,8 @@
 #import <ASIHTTPRequest.h>
 #import "ASICommRequest.h"
 #import "BlockPersonClass.h"
+#import "VAStartClass.h"
+#import <SVProgressHUD.h>
 
 @interface ViewController ()
 {
@@ -22,6 +24,7 @@
 
 @property(nonatomic,weak)IBOutlet UIButton *EGObutton;
 @property(nonatomic,weak)IBOutlet UILabel *EGOlbl;
+@property (weak, nonatomic) IBOutlet UILabel *m_lazyText;
 
 @end
 
@@ -30,11 +33,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.title = @"PodsTest";
+    self.title = NSLocalizedString(@"PodTest", nil);
     //test JSON
     [self jsonTest];
     //test EGOCache
     //[self EGOCacheTest];
+    self.m_lazyText.frame = CGRectMake(0, self.view.bounds.size.height-30, self.view.bounds.size.width, 30);
+    self.m_lazyText.textAlignment = NSTextAlignmentCenter;
     m_array = [[NSMutableArray alloc] initWithCapacity:10];
 }
 
@@ -191,6 +196,29 @@ NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
     //res= 1
     NSLog(@"res= %@", [[ret2 objectForKey:@"other"] objectAtIndex:1]);
     //res= 30
+}
+
+
+#pragma mark -storyboard
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *vc = [segue destinationViewController];
+    if ([vc respondsToSelector:@selector(setVAStartString:)]) {
+        [vc setValue:@"testDemo" forKey:@"VAStartString"];
+    }
+    
+    //需要回传的  需要加这个
+    if ([vc respondsToSelector:@selector(setReturnViewController:)]) {
+        [vc setValue:self forKey:@"ReturnViewController"];
+    }
+}
+
+-(void)setReturnString:(NSString *)returnString
+{
+    _returnString = returnString;
+    NSLog(@"return %@", _returnString);
+//    [SVProgressHUD setBackgroundColor:[UIColor lightGrayColor]];
+//    [SVProgressHUD showWithString:_returnString Duration:2];
 }
 
 @end

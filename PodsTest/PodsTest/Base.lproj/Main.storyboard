@@ -20,6 +20,34 @@
             </objects>
             <point key="canvasLocation" x="-162" y="21"/>
         </scene>
+        <!--Start Class-->
+        <scene sceneID="GOZ-2m-oWT">
+            <objects>
+                <viewController id="kzo-P4-daB" customClass="VAStartClass" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jQS-Si-JEF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="1CA-uS-Jou">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="l2C-4T-PYo">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rGd-B1-qQs">
+                                <rect key="frame" x="42" y="139" width="42" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="BACK">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="BACKBUTTON:" destination="kzo-P4-daB" eventType="touchUpInside" id="cnS-6e-eYC"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W59-Y7-0f5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="643" y="11"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="DxU-d0-dRQ">
             <objects>
@@ -65,18 +93,39 @@
                                     <action selector="asibutton:" destination="sBh-XH-zxQ" eventType="touchUpInside" id="mru-Fx-Iuk"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MfA-h6-ctZ">
+                                <rect key="frame" x="0.0" y="457" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.15032387759999999" green="0.61375456429999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="EnJ-pI-58s"/>
+                    <navigationItem key="navigationItem" id="EnJ-pI-58s">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Lk3-0S-sTb">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wY3-QN-1Ko">
+                                <rect key="frame" x="36" y="421" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="next">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="kzo-P4-daB" kind="push" id="0qr-33-4qV"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="EGObutton" destination="Z8T-aA-0M7" id="kZe-Zw-e2s"/>
                         <outlet property="EGOlbl" destination="p67-ZS-eOd" id="ih3-g9-cnV"/>
+                        <outlet property="m_lazyText" destination="MfA-h6-ctZ" id="viQ-BE-Hd6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFa-3Z-Wud" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="266" y="11"/>
+            <point key="canvasLocation" x="245" y="11"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
