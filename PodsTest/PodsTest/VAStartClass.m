@@ -8,10 +8,12 @@
 
 #import "VAStartClass.h"
 #import <SVProgressHUD.h>
+#import "ZichenTimerHandler.h"
 
-@interface VAStartClass ()
+@interface VAStartClass ()<ZichenTimerDelegate>
 {
     NSString *returnStr;
+    ZichenTimerHandler *_zichenHandler;
 }
 
 @end
@@ -92,6 +94,23 @@
         }
     }
     va_end(args);
+}
+
+
+#pragma mark --NSTimerDelegate
+-(IBAction)TimerButton:(id)sender
+{
+    _zichenHandler = [[ZichenTimerHandler alloc] init];
+    _zichenHandler.ZichenTimerDelegate = self;
+    [_zichenHandler startZichenTimer:2.0 delegate:self repeate:NO];
+}
+
+-(void)ZichenNStimerHandler:(ZichenTimerHandler *)handler
+{
+    NSLog(@"....timer handler");
+    [SVProgressHUD setBackgroundColor:[UIColor lightGrayColor]];
+    [SVProgressHUD showWithString:@"timer handler" Duration:1.5];
+    [_zichenHandler stopZichenTimer];
 }
 
 /*
