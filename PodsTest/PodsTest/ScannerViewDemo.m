@@ -66,18 +66,17 @@
     
     CGSize size = self.view.layer.bounds.size;
     
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        [_previewLayer setFrame:CGRectMake(0, 0, size.height, size.width)];
-    } else {
-        [_previewLayer setFrame:CGRectMake(0, 0, size.width, size.height)];
-    }
+//    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+//        [_previewLayer setFrame:CGRectMake(0, 0, size.height, size.width)];
+//    } else {
+//        [_previewLayer setFrame:CGRectMake(0, 0, size.width, size.height)];
+//    }
     
+    [_previewLayer setFrame:CGRectMake(0, 0, size.width, size.height)];
     [self setVideoOrientation:self.interfaceOrientation];
 }
 
-#pragma mark -
 #pragma mark AVCaptureMetadataOutputObjectsDelegate
-
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     NSLog(@"metadataObjects: %@", metadataObjects);
@@ -104,8 +103,8 @@
     }];
 }
 
+/*
 #pragma mark -
-
 // 屏幕旋转处理
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration;
 {
@@ -141,7 +140,7 @@
     }
     [_previewLayer.connection setVideoOrientation:videoOrientation];
 }
-
+*/
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
