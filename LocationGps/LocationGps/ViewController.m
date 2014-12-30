@@ -12,6 +12,14 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 
+typedef NS_ENUM(NSUInteger, UIPanGestureRecognizerDirection) {
+    UIPanGestureRecognizerDirectionUndefined,
+    UIPanGestureRecognizerDirectionUp,
+    UIPanGestureRecognizerDirectionDown,
+    UIPanGestureRecognizerDirectionLeft,
+    UIPanGestureRecognizerDirectionRight
+};
+
 @interface ViewController ()
 {
     UISlider *slider;
@@ -48,8 +56,107 @@
     slider.autoresizingMask = UIViewAutoresizingNone;
     [self.view addSubview:slider];
     slider.hidden = NO;
+    
+    [self addRecoginzer];
 }
 
+-(void)addRecoginzer
+{
+    UIPanGestureRecognizer *reco = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panReco:)];
+    [self.view addGestureRecognizer:reco];
+}
+
+/*
+ 手势识别要比下面的方式好一些
+ */
+-(void)panReco:(UIPanGestureRecognizer *)recoginzer
+{
+    static UIPanGestureRecognizerDirection dircetion = UIPanGestureRecognizerDirectionUndefined;
+    
+    switch (recoginzer.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            if (dircetion == UIPanGestureRecognizerDirectionUndefined) {
+                CGPoint point = [recoginzer velocityInView:self.view];
+                BOOL isVelocity = fabs(point.y)>fabs(point.x);
+                if (isVelocity) {
+                    if (point.y > 0) {
+                        dircetion = UIPanGestureRecognizerDirectionDown;
+                    }
+                    else{
+                        dircetion = UIPanGestureRecognizerDirectionUp;
+                    }
+                }
+                else{
+                    if (point.x) {
+                        dircetion = UIPanGestureRecognizerDirectionRight;
+                    }
+                    else{
+                        dircetion = UIPanGestureRecognizerDirectionLeft;
+                    }
+                }
+            }
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+            switch (dircetion) {
+                case UIPanGestureRecognizerDirectionUp:
+                {
+                    [self HandlUpRecogizer:recoginzer];
+                }
+                    break;
+                case UIPanGestureRecognizerDirectionDown:
+                {
+                    [self HandlDownRecogizer:recoginzer];
+                }
+                    break;
+                case UIPanGestureRecognizerDirectionLeft:
+                {
+                    [self HandlLeftRecogizer:recoginzer];
+                }
+                    break;
+                case UIPanGestureRecognizerDirectionRight:
+                {
+                    [self HandlRightRecogizer:recoginzer];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        {
+            dircetion = UIPanGestureRecognizerDirectionUndefined;
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)HandlUpRecogizer:(UIPanGestureRecognizer *)recoginzer
+{
+    slider.value += 0.005;
+}
+-(void)HandlDownRecogizer:(UIPanGestureRecognizer *)recoginzer
+{
+    slider.value -= 0.005;
+}
+-(void)HandlLeftRecogizer:(UIPanGestureRecognizer *)recoginzer
+{
+    _audioPlayer.currentTime -= 0.1;
+}
+-(void)HandlRightRecogizer:(UIPanGestureRecognizer *)recoginzer
+{
+    _audioPlayer.currentTime += 0.1;
+}
+
+/*
+ 这种方式比较粗糙
+ */
+/*
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     for (UITouch *touch in touches) {
@@ -85,7 +192,7 @@
 {
     _firstPoint = _secondPoint = CGPointZero;
 }
-
+*/
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
