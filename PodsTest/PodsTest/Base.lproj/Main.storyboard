@@ -41,6 +41,15 @@
                                     <action selector="TimerButton:" destination="kzo-P4-daB" eventType="touchUpInside" id="1Ph-DN-lNL"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ClI-nQ-RH0">
+                                <rect key="frame" x="222" y="88" width="75" height="30"/>
+                                <state key="normal" title="二维码扫描">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="LJU-oM-J2m" kind="modal" id="VxR-ES-2pk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -62,6 +71,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W59-Y7-0f5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="643" y="11"/>
+        </scene>
+        <!--Scanner View Demo-->
+        <scene sceneID="tTx-km-Frc">
+            <objects>
+                <viewController id="LJU-oM-J2m" customClass="ScannerViewDemo" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GCN-13-MoT"/>
+                        <viewControllerLayoutGuide type="bottom" id="qLk-wI-fz4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TaP-FO-TKM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="RDH-YD-2Tp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LEj-sS-yHq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044" y="11"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="DxU-d0-dRQ">
