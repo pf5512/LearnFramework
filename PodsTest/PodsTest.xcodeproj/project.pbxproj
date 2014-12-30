@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		740A940B1A4911230089507A /* ZichenTimerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 740A940A1A4911230089507A /* ZichenTimerHandler.m */; };
+		740A940F1A4967010089507A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 740A940E1A4967010089507A /* QuartzCore.framework */; };
+		740A94131A4970850089507A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 740A94121A4970850089507A /* CoreFoundation.framework */; };
 		74122CE01A413119005F2A48 /* ASICommRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 74122CDF1A413119005F2A48 /* ASICommRequest.m */; };
 		74B6CC491A1B32BF00AFD8B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC481A1B32BF00AFD8B9 /* main.m */; };
 		74B6CC4C1A1B32BF00AFD8B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC4B1A1B32BF00AFD8B9 /* AppDelegate.m */; };
@@ -35,6 +37,8 @@
 		3E969FA406D69EDC148B8216 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		740A94091A4911230089507A /* ZichenTimerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZichenTimerHandler.h; path = General/Base/ZichenTimerHandler.h; sourceTree = "<group>"; };
 		740A940A1A4911230089507A /* ZichenTimerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZichenTimerHandler.m; path = General/Base/ZichenTimerHandler.m; sourceTree = "<group>"; };
+		740A940E1A4967010089507A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		740A94121A4970850089507A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		74122CDE1A413119005F2A48 /* ASICommRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICommRequest.h; sourceTree = "<group>"; };
 		74122CDF1A413119005F2A48 /* ASICommRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASICommRequest.m; sourceTree = "<group>"; };
 		74B6CC431A1B32BF00AFD8B9 /* PodsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740A94131A4970850089507A /* CoreFoundation.framework in Frameworks */,
+				740A940F1A4967010089507A /* QuartzCore.framework in Frameworks */,
 				BF9412DE85FF36A74CF6FBBF /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,6 +180,8 @@
 		EF81854E58930C475BB838B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				740A94121A4970850089507A /* CoreFoundation.framework */,
+				740A940E1A4967010089507A /* QuartzCore.framework */,
 				B72726B95468BFC3BB131809 /* libPods.a */,
 			);
 			name = Frameworks;

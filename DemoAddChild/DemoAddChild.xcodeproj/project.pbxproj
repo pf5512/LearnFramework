@@ -16,6 +16,8 @@
 		740C64341A42A3F500064978 /* DemoAddChildTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 740C64331A42A3F500064978 /* DemoAddChildTests.m */; };
 		740C64401A42A59600064978 /* CenterViewCtl.m in Sources */ = {isa = PBXBuildFile; fileRef = 740C643E1A42A59600064978 /* CenterViewCtl.m */; };
 		740C64441A42B03F00064978 /* LeftMenuViewCtl.m in Sources */ = {isa = PBXBuildFile; fileRef = 740C64431A42B03F00064978 /* LeftMenuViewCtl.m */; };
+		741AB3A31A5282C800F703E9 /* DemoWindowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 741AB3A21A5282C800F703E9 /* DemoWindowLabel.m */; };
+		741AB3A61A52834800F703E9 /* DemoCopyPaste.m in Sources */ = {isa = PBXBuildFile; fileRef = 741AB3A51A52834800F703E9 /* DemoCopyPaste.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,10 @@
 		740C643E1A42A59600064978 /* CenterViewCtl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterViewCtl.m; sourceTree = "<group>"; };
 		740C64421A42B03F00064978 /* LeftMenuViewCtl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewCtl.h; sourceTree = "<group>"; };
 		740C64431A42B03F00064978 /* LeftMenuViewCtl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewCtl.m; sourceTree = "<group>"; };
+		741AB3A11A5282C800F703E9 /* DemoWindowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DemoWindowLabel.h; path = Vendor/DemoWindowLabel.h; sourceTree = "<group>"; };
+		741AB3A21A5282C800F703E9 /* DemoWindowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DemoWindowLabel.m; path = Vendor/DemoWindowLabel.m; sourceTree = "<group>"; };
+		741AB3A41A52834800F703E9 /* DemoCopyPaste.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoCopyPaste.h; sourceTree = "<group>"; };
+		741AB3A51A52834800F703E9 /* DemoCopyPaste.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoCopyPaste.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +101,9 @@
 				740C643E1A42A59600064978 /* CenterViewCtl.m */,
 				740C64421A42B03F00064978 /* LeftMenuViewCtl.h */,
 				740C64431A42B03F00064978 /* LeftMenuViewCtl.m */,
+				741AB3A41A52834800F703E9 /* DemoCopyPaste.h */,
+				741AB3A51A52834800F703E9 /* DemoCopyPaste.m */,
+				741AB3A01A5282B300F703E9 /* Vendor */,
 				740C64211A42A3F400064978 /* Main.storyboard */,
 				740C64241A42A3F400064978 /* Images.xcassets */,
 				740C64261A42A3F400064978 /* LaunchScreen.xib */,
@@ -127,6 +136,15 @@
 				740C64321A42A3F500064978 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		741AB3A01A5282B300F703E9 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				741AB3A11A5282C800F703E9 /* DemoWindowLabel.h */,
+				741AB3A21A5282C800F703E9 /* DemoWindowLabel.m */,
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,11 +247,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				741AB3A61A52834800F703E9 /* DemoCopyPaste.m in Sources */,
 				740C64201A42A3F400064978 /* ViewController.m in Sources */,
 				740C64401A42A59600064978 /* CenterViewCtl.m in Sources */,
 				740C64441A42B03F00064978 /* LeftMenuViewCtl.m in Sources */,
 				740C641D1A42A3F400064978 /* AppDelegate.m in Sources */,
 				740C641A1A42A3F400064978 /* main.m in Sources */,
+				741AB3A31A5282C800F703E9 /* DemoWindowLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
