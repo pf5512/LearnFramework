@@ -73,7 +73,7 @@
 //    }
     
     [_previewLayer setFrame:CGRectMake(0, 0, size.width, size.height)];
-    [self setVideoOrientation:self.interfaceOrientation];
+    //[self setVideoOrientation:self.interfaceOrientation];
 }
 
 #pragma mark AVCaptureMetadataOutputObjectsDelegate
