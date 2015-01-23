@@ -15,6 +15,9 @@
 #import "BlockPersonClass.h"
 #import "VAStartClass.h"
 #import <SVProgressHUD.h>
+#import <TMCache.h>
+#import <netinet/in.h>
+#include <netdb.h>
 
 @interface ViewController ()
 {
@@ -48,7 +51,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - egocache -
+#pragma mark - EGO缓存 -
 -(void)EGOCacheTest
 {
     NSData *temp = [[EGOCache globalCache] dataForKey:@"cacheTest"];
@@ -69,19 +72,24 @@
     [self EGOCacheTest];
 }
 
-#pragma mark --Asihttp
+#pragma mark --TMCache
+-(IBAction)TMCacheButton:(id)sender
+{
+    NSString *dic = @"i-am-a-student";
+    [[TMCache sharedCache] setObject:dic forKey:@"string"];
+    [[TMCache sharedCache] objectForKey:@"string" block:^(TMCache *cache, NSString *key, id object) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *strGet = (NSString *)object;
+            [SVProgressHUD showInfoWithStatus:strGet];
+        });
+    }];
+}
+
+#pragma mark --ASI测试
 -(IBAction)asibutton:(id)sender
 {
     //天气查询接口
     NSString *string = @"http://www.weather.com.cn/data/sk/101190408.html";
-    //NSString *string = @"http://www.xxxxxcocmc.cm";
-//    [ASICommRequest GetWearthInfo:string Completion:^(id result, NSError *error){
-//        if (error) {
-//            NSLog(@"error %@", error);
-//        }
-//        NSLog(@"result %@", result);
-//    }];
-    
     [ASICommRequest GetWearthInfo:string Completion:^(NSDictionary *result){
         NSLog(@"result %@", result);
     } failHandle:^(NSError *error){
@@ -89,6 +97,7 @@
     }];
 }
 
+#pragma mark --block排序
 -(IBAction)blockButton:(id)sender
 {
     BlockPersonClass *person1 = [[BlockPersonClass alloc] init];
@@ -142,9 +151,52 @@ NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
 //            return NSOrderedDescending;
     }
     return NSOrderedSame;
-    
-    return NSOrderedSame;
 };
+
+
+-(IBAction)GetAddressInfo:(id)sender
+{
+    CFHostRef host;
+    CFArrayRef             addressArray;
+    CFStringRef hostname = CFSTR("www.baidu.com");
+    host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
+    
+    CFStreamError error;
+    BOOL success = CFHostStartInfoResolution(host, kCFHostAddresses, &error);
+    if (success) {
+        addressArray = CFHostGetAddressing(host, nil);
+        NSLog(@"--- %@", addressArray);
+        NSString *address = [self getAddressFromArray:addressArray];
+        [SVProgressHUD showInfoWithStatus:address];
+    }
+    else{
+        NSLog(@"%d", error.error);
+    }
+}
+
+-(NSString*) getAddressFromArray:(CFArrayRef) addresses
+{
+    struct sockaddr  *addr;
+    char             ipAddress[INET6_ADDRSTRLEN];
+    CFIndex          index, count;
+    int              err;
+    assert(addresses != NULL);
+    count = CFArrayGetCount(addresses);
+    for (index = 0; index < count; index++)
+    {
+        addr = (struct sockaddr *)CFDataGetBytePtr(CFArrayGetValueAtIndex(addresses, index));
+        assert(addr != NULL);
+        /* getnameinfo coverts an IPv4 or IPv6 address into a text string. */
+        err = getnameinfo(addr, addr->sa_len, ipAddress, INET6_ADDRSTRLEN, NULL, 0, NI_NUMERICHOST);
+        if (err == 0) {
+            NSLog(@"解析到ip地址：%s\n", ipAddress);
+        } else {
+            NSLog(@"地址格式转换错误：%d\n", err);
+        }
+    }
+
+    return   [[NSString alloc] initWithFormat:@"%s", ipAddress];//这里只返回最后一个，一般认为只有一个地址
+}
 
 #pragma mark - json -
 -(void)jsonTest

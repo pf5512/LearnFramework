@@ -3,3 +3,4 @@ pod 'JSONKit'
 pod 'EGOCache'
 pod 'ASIHTTPRequest'
 pod 'SVProgressHUD', :head
+pod 'TMCache'

@@ -215,11 +215,6 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     [[self sharedView] showImage:image status:string duration:displayInterval maskType:maskType];
 }
 
-+ (void)showWithString:(NSString *)string Duration:(NSTimeInterval)time
-{
-    [self sharedView];
-    [[self sharedView] showImage:nil status:string duration:time maskType:SVProgressHUDDefaultMaskType];
-}
 
 #pragma mark - Dismiss Methods
 
@@ -699,10 +694,11 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 
 - (void)showImage:(UIImage *)image status:(NSString *)string duration:(NSTimeInterval)duration maskType:(SVProgressHUDMaskType)hudMaskType {
     self.progress = SVProgressHUDUndefinedProgress;
+    self.maskType = hudMaskType;
     [self cancelRingLayerAnimation];
     
     if(![self.class isVisible])
-        [self.class show];
+        [self.class showWithMaskType:self.maskType];
   
     if ([self.imageView respondsToSelector:@selector(setTintColor:)]) {
         self.imageView.tintColor = SVProgressHUDForegroundColor;
@@ -711,16 +707,17 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
     }
     self.imageView.image = image;
     self.imageView.hidden = NO;
-    self.maskType = hudMaskType;
-  
+    
     self.stringLabel.text = string;
     [self updatePosition];
     [self.indefiniteAnimatedView removeFromSuperview];
     
     if(self.maskType != SVProgressHUDMaskTypeNone) {
+        self.overlayView.userInteractionEnabled = YES;
         self.accessibilityLabel = string;
         self.isAccessibilityElement = YES;
     } else {
+        self.overlayView.userInteractionEnabled = NO;
         self.hudView.accessibilityLabel = string;
         self.hudView.isAccessibilityElement = YES;
     }

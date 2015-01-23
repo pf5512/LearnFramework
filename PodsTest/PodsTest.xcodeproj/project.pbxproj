@@ -13,6 +13,8 @@
 		74122CE01A413119005F2A48 /* ASICommRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 74122CDF1A413119005F2A48 /* ASICommRequest.m */; };
 		741AB3A91A52ABCD00F703E9 /* ScannerViewDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 741AB3A81A52ABCD00F703E9 /* ScannerViewDemo.m */; };
 		741AB3AB1A52AD7600F703E9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741AB3AA1A52AD7600F703E9 /* AVFoundation.framework */; };
+		7421394D1A53F1ED00FC3AB4 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7421394C1A53F1ED00FC3AB4 /* AssetsLibrary.framework */; };
+		7426ADA21A72250500D60A4F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7426ADA11A72250500D60A4F /* CFNetwork.framework */; };
 		74B6CC491A1B32BF00AFD8B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC481A1B32BF00AFD8B9 /* main.m */; };
 		74B6CC4C1A1B32BF00AFD8B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC4B1A1B32BF00AFD8B9 /* AppDelegate.m */; };
 		74B6CC4F1A1B32BF00AFD8B9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B6CC4E1A1B32BF00AFD8B9 /* ViewController.m */; };
@@ -46,6 +48,8 @@
 		741AB3A71A52ABCD00F703E9 /* ScannerViewDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerViewDemo.h; sourceTree = "<group>"; };
 		741AB3A81A52ABCD00F703E9 /* ScannerViewDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerViewDemo.m; sourceTree = "<group>"; };
 		741AB3AA1A52AD7600F703E9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7421394C1A53F1ED00FC3AB4 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		7426ADA11A72250500D60A4F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		74B6CC431A1B32BF00AFD8B9 /* PodsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74B6CC471A1B32BF00AFD8B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74B6CC481A1B32BF00AFD8B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7426ADA21A72250500D60A4F /* CFNetwork.framework in Frameworks */,
+				7421394D1A53F1ED00FC3AB4 /* AssetsLibrary.framework in Frameworks */,
 				741AB3AB1A52AD7600F703E9 /* AVFoundation.framework in Frameworks */,
 				740A94131A4970850089507A /* CoreFoundation.framework in Frameworks */,
 				740A940F1A4967010089507A /* QuartzCore.framework in Frameworks */,
@@ -188,6 +194,8 @@
 		EF81854E58930C475BB838B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7426ADA11A72250500D60A4F /* CFNetwork.framework */,
+				7421394C1A53F1ED00FC3AB4 /* AssetsLibrary.framework */,
 				741AB3AA1A52AD7600F703E9 /* AVFoundation.framework */,
 				740A94121A4970850089507A /* CoreFoundation.framework */,
 				740A940E1A4967010089507A /* QuartzCore.framework */,

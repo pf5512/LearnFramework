@@ -53,7 +53,8 @@
     [self doStringWithString:VAStartString,@"123",@"hello",nil];
     
     [SVProgressHUD setBackgroundColor:[UIColor lightGrayColor]];
-    [SVProgressHUD showWithString:returnStr Duration:2];
+    [SVProgressHUD showInfoWithStatus:returnStr];
+    //[SVProgressHUD showWithString:returnStr Duration:2];
 }
 -(IBAction)BACKBUTTON:(id)sender
 {
@@ -109,7 +110,8 @@
 {
     NSLog(@"....timer handler");
     [SVProgressHUD setBackgroundColor:[UIColor lightGrayColor]];
-    [SVProgressHUD showWithString:@"timer handler" Duration:1.5];
+    [SVProgressHUD showInfoWithStatus:@"timer handler"];
+    //[SVProgressHUD showWithString:@"timer handler" Duration:1.5];
     [_zichenHandler stopZichenTimer];
 }
 
