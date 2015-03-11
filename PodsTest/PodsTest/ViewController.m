@@ -16,10 +16,11 @@
 #import "VAStartClass.h"
 #import <SVProgressHUD.h>
 #import <TMCache.h>
+#import<TMMemoryCache.h>
 #import <netinet/in.h>
 #include <netdb.h>
 
-@interface ViewController ()
+@interface ViewController ()<ASICommRequestDelegate>
 {
     //JSONDecoder *m_decoder;
     NSMutableArray *m_array;
@@ -54,17 +55,30 @@
 #pragma mark - EGO缓存 -
 -(void)EGOCacheTest
 {
-    NSData *temp = [[EGOCache globalCache] dataForKey:@"cacheTest"];
-    NSString *tempStr = [[NSString alloc] initWithData:temp encoding:NSUTF8StringEncoding];
-    if (tempStr == nil || [tempStr isEqualToString:@""]) {
-        NSString *name = @"this is test egocache";
-        NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
-        [[EGOCache globalCache] setData:data forKey:@"cacheTest"];
+    UIImage *iamge = [[EGOCache globalCache] imageForKey:@"http://112.95.146.91:10001/Content/uploads/images/141229130347649.jpg"];
+    if (iamge == nil || [iamge isKindOfClass:[NSNull class]]) {
+        UIImage *imageName = [UIImage imageNamed:@"btnBlueRound@2x.png"];
+        [[EGOCache globalCache] setImage:imageName forKey:@"http://112.95.146.91:10001/Content/uploads/images/141229130347649.jpg"];
+        //[[TMCache sharedCache] setObject:imageName forKey:@"string"];
     }
     else
     {
-        _EGOlbl.text = tempStr;
+        NSLog(@"....");
+        UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 300, 320, 50)];
+        imageview.image = iamge;
+        [self.view addSubview:imageview];
     }
+//    NSData *temp = [[EGOCache globalCache] dataForKey:@"cacheTest"];
+//    NSString *tempStr = [[NSString alloc] initWithData:temp encoding:NSUTF8StringEncoding];
+//    if (tempStr == nil || [tempStr isEqualToString:@""]) {
+//        NSString *name = @"this is test egocache";
+//        NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
+//        [[EGOCache globalCache] setData:data forKey:@"cacheTest"];
+//    }
+//    else
+//    {
+//        _EGOlbl.text = tempStr;
+//    }
 }
 
 -(IBAction)egoclick:(id)sender
@@ -75,26 +89,70 @@
 #pragma mark --TMCache
 -(IBAction)TMCacheButton:(id)sender
 {
-    NSString *dic = @"i-am-a-student";
-    [[TMCache sharedCache] setObject:dic forKey:@"string"];
-    [[TMCache sharedCache] objectForKey:@"string" block:^(TMCache *cache, NSString *key, id object) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *strGet = (NSString *)object;
-            [SVProgressHUD showInfoWithStatus:strGet];
-        });
-    }];
+    //NSString *dic = @"i-am-a-student";
+    //UIImage *imageName = [UIImage imageNamed:@"btnBlueRound@2x.png"];
+    //[[TMCache sharedCache] setObject:dic forKey:@"string"];
+    NSString *KEY = @"http://112.95.146.91:10001/Content/uploads/images/141229130347649.jpg";
+    UIImage *iamge = [[TMMemoryCache sharedCache] objectForKey:KEY];
+    if (iamge == nil || [iamge isKindOfClass:[NSNull class]]) {
+        UIImage *imageName = [UIImage imageNamed:@"btnBlueRound@2x.png"];
+        [[TMMemoryCache sharedCache] setObject:imageName forKey:KEY];
+    }
+    else
+    {
+        NSLog(@"....");
+        UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 300, 320, 50)];
+        imageview.image = iamge;
+        [self.view addSubview:imageview];
+    }
+    
+    [TMDiskCache sharedCache].ageLimit = 10;
+    UIImage *xxxx = (UIImage *)[[TMDiskCache sharedCache] objectForKey:KEY];
+    if (xxxx == nil || [xxxx isKindOfClass:[NSNull class]]) {
+        NSLog(@"缓存....");
+        UIImage *imageName = [UIImage imageNamed:@"btnBlueRound@2x.png"];
+        [[TMDiskCache sharedCache] setObject:imageName forKey:KEY];
+    }
+    else
+    {
+        NSLog(@"....xxxx");
+        UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 100, 320, 50)];
+        imageview.image = iamge;
+        [self.view addSubview:imageview];
+    }
+    
+//    [[TMCache sharedCache] objectForKey:@"string" block:^(TMCache *cache, NSString *key, id object) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSString *strGet = (NSString *)object;
+//            [SVProgressHUD showInfoWithStatus:strGet];
+//        });
+//    }];
 }
 
 #pragma mark --ASI测试
 -(IBAction)asibutton:(id)sender
 {
     //天气查询接口
-    NSString *string = @"http://www.weather.com.cn/data/sk/101190408.html";
+    //改变获取数据的url
+    NSString *string = @"http://allseeing-i.com";
+    //NSString *string = @"http://www.weather.com.cn/data/sk/101190408.html";
     [ASICommRequest GetWearthInfo:string Completion:^(NSDictionary *result){
         NSLog(@"result %@", result);
     } failHandle:^(NSError *error){
         NSLog(@"error %@", error);
     }];
+    
+//    [[ASICommRequest shareInstance] getWeartherInfo:string successSEL:@selector(asiHttpSuccess:) failSEL:@selector(asiHttpFail:) httpDelegate:(id)self];
+}
+
+-(void)asiHttpSuccess:(NSDictionary *)dicInfo
+{
+    NSLog(@"dic info %@", dicInfo);
+}
+
+-(void)asiHttpFail:(NSError *)error
+{
+    NSLog(@"error %@", error);
 }
 
 #pragma mark --block排序
