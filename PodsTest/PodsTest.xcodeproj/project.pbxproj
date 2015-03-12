@@ -11,6 +11,7 @@
 		740A940F1A4967010089507A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 740A940E1A4967010089507A /* QuartzCore.framework */; };
 		740A94131A4970850089507A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 740A94121A4970850089507A /* CoreFoundation.framework */; };
 		74122CE01A413119005F2A48 /* ASICommRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 74122CDF1A413119005F2A48 /* ASICommRequest.m */; };
+		741669A81AB1415C009F2D31 /* CornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 741669A71AB1415C009F2D31 /* CornerView.m */; };
 		741AB3A91A52ABCD00F703E9 /* ScannerViewDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 741AB3A81A52ABCD00F703E9 /* ScannerViewDemo.m */; };
 		741AB3AB1A52AD7600F703E9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 741AB3AA1A52AD7600F703E9 /* AVFoundation.framework */; };
 		741D75BF1A78BA1100E6ECAB /* btnBlueRound@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 741D75BE1A78BA1100E6ECAB /* btnBlueRound@2x.png */; };
@@ -46,6 +47,8 @@
 		740A94121A4970850089507A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		74122CDE1A413119005F2A48 /* ASICommRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICommRequest.h; sourceTree = "<group>"; };
 		74122CDF1A413119005F2A48 /* ASICommRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASICommRequest.m; sourceTree = "<group>"; };
+		741669A61AB1415C009F2D31 /* CornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CornerView.h; path = General/CorenerView/CornerView.h; sourceTree = "<group>"; };
+		741669A71AB1415C009F2D31 /* CornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CornerView.m; path = General/CorenerView/CornerView.m; sourceTree = "<group>"; };
 		741AB3A71A52ABCD00F703E9 /* ScannerViewDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannerViewDemo.h; sourceTree = "<group>"; };
 		741AB3A81A52ABCD00F703E9 /* ScannerViewDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerViewDemo.m; sourceTree = "<group>"; };
 		741AB3AA1A52AD7600F703E9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -100,6 +103,7 @@
 		740A94071A4910510089507A /* General */ = {
 			isa = PBXGroup;
 			children = (
+				741669A51AB14117009F2D31 /* CornerView */,
 				740A94081A4910D90089507A /* Base */,
 			);
 			name = General;
@@ -112,6 +116,15 @@
 				740A940A1A4911230089507A /* ZichenTimerHandler.m */,
 			);
 			name = Base;
+			sourceTree = "<group>";
+		};
+		741669A51AB14117009F2D31 /* CornerView */ = {
+			isa = PBXGroup;
+			children = (
+				741669A61AB1415C009F2D31 /* CornerView.h */,
+				741669A71AB1415C009F2D31 /* CornerView.m */,
+			);
+			name = CornerView;
 			sourceTree = "<group>";
 		};
 		74B6CC3A1A1B32BF00AFD8B9 = {
@@ -349,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74F362761A43D8AC00FA4FEF /* VAStartClass.m in Sources */,
+				741669A81AB1415C009F2D31 /* CornerView.m in Sources */,
 				74B6CC4F1A1B32BF00AFD8B9 /* ViewController.m in Sources */,
 				74122CE01A413119005F2A48 /* ASICommRequest.m in Sources */,
 				74B6CC4C1A1B32BF00AFD8B9 /* AppDelegate.m in Sources */,

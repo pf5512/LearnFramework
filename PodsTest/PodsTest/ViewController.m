@@ -19,6 +19,7 @@
 #import<TMMemoryCache.h>
 #import <netinet/in.h>
 #include <netdb.h>
+#import "CornerView.h"
 
 @interface ViewController ()<ASICommRequestDelegate>
 {
@@ -45,6 +46,9 @@
     self.m_lazyText.frame = CGRectMake(0, self.view.bounds.size.height-30, self.view.bounds.size.width, 30);
     self.m_lazyText.textAlignment = NSTextAlignmentCenter;
     m_array = [[NSMutableArray alloc] initWithCapacity:10];
+    
+    //设置图片单个圆角
+    [self setviewRoundedRect];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -228,7 +232,7 @@ NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
         [SVProgressHUD showInfoWithStatus:address];
     }
     else{
-        NSLog(@"%d", error.error);
+        //NSLog(@"%d", error.error);
     }
 }
 
@@ -308,6 +312,24 @@ NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
     //res= 30
 }
 
+#pragma mark --控件单个圆角
+-(void)setviewRoundedRect
+{
+    CornerView *view1 = [[CornerView alloc] initWithFrame:CGRectMake(120, self.view.bounds.size.height - 160, 100, 60) withColor:[UIColor blueColor]];
+    CGSize size = CGSizeMake(10.f, 10.f);
+    //[view1 setCornerOnBottomRight:size];
+    [view1 setCornerOnRight:size];
+    [self.view addSubview:view1];
+    
+    UIView *RoundView = [[UIView alloc] initWithFrame:CGRectMake(120, self.view.bounds.size.height - 160, 100, 60)];
+    RoundView.backgroundColor = [UIColor redColor];
+    //[self.view addSubview:RoundView];
+    UIBezierPath *makePath = [UIBezierPath bezierPathWithRoundedRect:RoundView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
+    shapeLayer.frame = RoundView.bounds;
+    shapeLayer.path = makePath.CGPath;
+    RoundView.layer.mask = shapeLayer;
+}
 
 #pragma mark -storyboard
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
