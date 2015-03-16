@@ -49,6 +49,8 @@
     
     //设置图片单个圆角
     [self setviewRoundedRect];
+    //获取内存
+    [self getTotalMemory];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -329,6 +331,12 @@ NSComparator comptr = ^(BlockPersonClass *obj1, BlockPersonClass *obj2)
     shapeLayer.frame = RoundView.bounds;
     shapeLayer.path = makePath.CGPath;
     RoundView.layer.mask = shapeLayer;
+}
+
+-(void)getTotalMemory
+{
+    unsigned long long allmemory = [[NSProcessInfo processInfo] physicalMemory];
+    NSLog(@"all memory %lld", allmemory);
 }
 
 #pragma mark -storyboard
